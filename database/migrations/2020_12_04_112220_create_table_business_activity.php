@@ -23,6 +23,7 @@ class CreateTableBusinessActivity extends Migration
             $table->string('essentials')->nullable();
             $table->string('non_essentials')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

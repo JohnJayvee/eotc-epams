@@ -35,10 +35,12 @@ class TransactionController extends Controller{
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
 
-		if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
-			$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
-		}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
-			$this->data['department'] = ['' => "Choose Department"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+		if(Auth::user()){
+			if (Auth::user()->type == "super_user" || Auth::user()->type == "admin") {
+				$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
+			}elseif (Auth::user()->type == "office_head" || Auth::user()->type == "processor") {
+				$this->data['department'] = ['' => "Choose Department"] + Department::where('id',Auth::user()->department_id)->pluck('name', 'id')->toArray();
+			}
 		}
 
 		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();

@@ -75,6 +75,7 @@ class CreateTableApplicationBusinessPermit extends Migration
             $table->string('application_date')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

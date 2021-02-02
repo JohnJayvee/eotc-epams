@@ -67,6 +67,15 @@ Route::group(['as' => "auth."], function(){
 			Route::post('upload',['uses' => "DepartmentController@upload_department"]);
 		});
 
+		Route::group(['as' => "account_code.",'prefix' => "account-code"], function(){
+			Route::get('/',['as' => "index",'uses' => "AccountCodeController@index"]);
+			Route::get('create',['as' => "create",'uses' => "AccountCodeController@create"]);
+			Route::post('create',['uses' => "AccountCodeController@store"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "AccountCodeController@edit",'middleware' => "system.exist:account-code"]);
+			Route::post('edit/{id?}',['uses' => "AccountCodeController@update",'middleware' => "system.exist:account-code"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "AccountCodeController@destroy",'middleware' => "system.exist:account-code"]);
+		});
+
 		Route::group(['as' => "application_requirements.",'prefix' => "application-requirements"], function(){
 			Route::get('/',['as' => "index",'uses' => "ApplicationRequirementController@index"]);
 			Route::get('create',['as' => "create",'uses' => "ApplicationRequirementController@create"]);

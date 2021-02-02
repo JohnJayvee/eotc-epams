@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode};
 
 class ExistRecord
 {
@@ -92,6 +92,14 @@ class ExistRecord
                     $module = "zone-location.index";
                 }
             break;
+            case 'account-code':
+                if(! $this->__exist_account_code($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "account-code.index";
+                }
             
         }
 
@@ -169,6 +177,16 @@ class ExistRecord
 
         if($zone){
             $request->merge(['zone_location_data' => $zone]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_account_code($request){
+        $account_code= AccountCode::find($this->reference_id);
+
+        if($account_code){
+            $request->merge(['account_code_data' => $account_code]);
             return TRUE;
         }
 
