@@ -123,13 +123,14 @@
         </div>
       </div>  
     @endif
-   @if(Auth::user()->type == "processor")
+   <!-- @if(Auth::user()->type == "processor")
       @if(in_array($transaction->status, ['PENDING', 'ONGOING']) AND $transaction->transaction_status == "COMPLETED")
         <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved"  class="btn btn-primary mt-4 btn-approved border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
         <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" class="btn btn-danger mt-4 btn-decline border-5 text-white {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
       @endif
-    @endif
-     
+    @endif -->
+    <a data-url="{{route('system.transaction.pending')}}"  class="btn btn-primary mt-4 btn-validate border-5 text-white" ><i class="fa fa-check-circle"></i> Validate Transactions</a>
+    <a  data-url="{{route('system.transaction.pending')}}" class="btn btn-danger mt-4 btn-decline border-5 text-white"><i class="fa fa-times-circle"></i> Decline Transactions</a>
   </div>
   
 </div>
@@ -202,7 +203,30 @@
           return false
         }
         if (result.value) {
-          window.location.href = url + "&amount="+result.value;
+          window.location.href = url /*+ "&amount="+result.value*/;
+        }
+      });
+    });
+    $(".btn-validate").on('click', function(){
+      var url = $(this).data('url');
+      var self = $(this)
+      Swal.fire({
+        title: 'Input Engineering UserID',
+        text: 'Use comma(,) as separator',
+        content: '<span>test</span>',
+        icon: 'warning',
+        input: 'text',
+        inputPlaceholder: "E.g. 01,02,03,99",
+        showCancelButton: true,
+        confirmButtonText: 'Proceed',
+        cancelButtonColor: '#d33',
+      }).then((result) => {
+        if (result.value === "") {
+          alert("You need to write something")
+          return false
+        }
+        if (result.value) {
+          window.location.href = url /*+ "department_code="+result.value*/;
         }
       });
     });

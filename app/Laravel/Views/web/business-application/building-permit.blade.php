@@ -53,27 +53,27 @@
                             <div class="table-responsive">
                                 <table class="table table-striped ">
                                     <thead>
-                                        <th class="text-title">Requirment Name</th>
+                                        <th class="text-title">Requirement Name</th>
                                         <th class="text-title">File</th>
                                     </thead>
                                     <tr>
-                                        <td>Permit Application Forms</td>
+                                        <td>Permit Application Forms (Required)</td>
                                         <td><input type="file"></td>
                                     </tr>
                                     <tr>
-                                        <td>Four (4) clear copies of valid PRC License and PTR of signing professionals</td>
+                                        <td>Four (4) clear copies of valid PRC License and PTR of signing professionals (Required)</td>
                                         <td><input type="file"></td>
                                     </tr>
                                     <tr>
                                         <td>Copy of PEZA Enterprise’s Certificate of Registration and Registration Agreement or
-                                            Approved Board Resolution</td>
+                                            Approved Board Resolution (Optional)</td>
                                         <td><input type="file"></td>
                                     </tr>
                                     <tr>
                                         <td>Supplemental Agreement or Letter of Authority LOA (Optional)</td>
                                         <td><input type="file"></td>
                                     </tr>
-                                    <tr>
+                                   <!--  <tr>
                                         <td>Contract of Lease between lessor and lessee or PEZA-issued LOA (Optional)</td>
                                         <td><input type="file"></td>
                                     </tr>
@@ -130,7 +130,7 @@
                                         <td>LETTER OF APPLICATION for building permit and/or ancillary permit from the locator/owner or
                                             from the contractor.</td>
                                         <td><input type="file"></td>
-                                    </tr>
+                                    </tr> -->
 
                                 </table>
                             </div>

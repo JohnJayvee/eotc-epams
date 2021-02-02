@@ -49,22 +49,7 @@ class BusinessController extends Controller
 	public function index(PageRequest $request){
 		$this->data['page_title'] = "Business Profile";
         $this->data['auth'] = Auth::guard('customer')->user();
-
-        switch(session('ecozone.progress', 1)){
-            case '1':
-                session()->put('ecozone.progress', 1);
-                if(!empty(request('ecozone'))){
-                    session()->put('ecozone.progress', 2);
-                    session()->put('ecozone.selected', $request->ecozone);
-                }
-                return view('web.business.index',$this->data);
-            case '2':
-                return view('web.business.index',$this->data);
-                break;
-                default:
-                break;
-        }
-
+        return view('web.business.index',$this->data);
 	}
 	public function create(){
 		$this->data['page_title'] = "Create Business CV";

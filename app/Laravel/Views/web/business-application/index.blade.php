@@ -22,6 +22,8 @@
                                         <option value="new_permit" selected>New Permit</option>
                                         <option value="renew">Renewal of Permit</option>
                                         <option value="other">Other Taxes, Dues, and Fees</option>
+                                        <option value="other">Letter of Authority (LOA)</option>
+                                        <option value="other">Certificate of Electrical Inspection (CEI)</option>
                                     </select>
                                 </div>
                             </div>
@@ -81,6 +83,24 @@
                                             <option value="">Permit-to-Operate Renewal</option>
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="text-form pb-2">Eco-Zone</label>
+                                    <select name="ecozone" id="list_of_ecozone" class="form-control form-control-sm classic">
+                                        <option value="Cavite Ecozone">Cavite Ecozone</option>
+                                        <option value="Baguio Ecozone">Baguio Ecozone</option>
+                                        <option value="Laguna Ecozone">Laguna Ecozone</option>
+                                        <option value="Batangas Ecozone">Batangas Ecozone</option>
+                                        <option value="Cebu Ecozone">Cebu Ecozone</option>
+                                        <option value="Davao Ecozone">Davao Ecozone</option>
+                                        <option value="Subic Ecozone">Subic Ecozone</option>
+                                        <option value="Clark Ecozone">Clark Ecozone</option>
+                                        <option value="Dumaguete Ecozone">Dumaguete Ecozone</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
