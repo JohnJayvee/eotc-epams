@@ -28,6 +28,7 @@ Route::group(['as' => "auth."], function(){
 		Route::group(['as' => "transaction.",'prefix' => "transaction"], function(){
 			Route::get('/',['as' => "index",'uses' => "TransactionController@index"]);
 			Route::get('pending',['as' => "pending",'uses' => "TransactionController@pending"]);
+			Route::get('inspection',['as' => "inspection",'uses' => "TransactionController@inspection"]);
 			Route::get('ongoing',['as' => "ongoing",'uses' => "TransactionController@ongoing"]);
 			Route::get('approved',['as' => "approved",'uses' => "TransactionController@approved"]);
 			Route::get('declined',['as' => "declined",'uses' => "TransactionController@declined"]);

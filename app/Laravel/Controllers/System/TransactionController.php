@@ -135,6 +135,84 @@ class TransactionController extends Controller{
 
 		return view('system.transaction.pending',$this->data);
 	}
+	public function inspection (PageRequest $request){
+		$this->data['page_title'] = "For Inspection Transactions";
+
+		$auth = Auth::user();
+		$this->data['auth'] = Auth::user();
+
+		$first_record = Transaction::orderBy('created_at','ASC')->first();
+		$start_date = $request->get('start_date',Carbon::now()->startOfMonth());
+
+		if($first_record){
+			$start_date = $request->get('start_date',$first_record->created_at->format("Y-m-d"));
+		}
+		$this->data['start_date'] = Carbon::parse($start_date)->format("Y-m-d");
+		$this->data['end_date'] = Carbon::parse($request->get('end_date',Carbon::now()))->format("Y-m-d");
+
+		$this->data['selected_department_id'] = $auth->type == "office_head" || $auth->type == "processor" ? $auth->department_id : $request->get('department_id');
+
+		$this->data['selected_application_id'] = $request->get('application_id');
+		$this->data['selected_processing_fee_status'] = $request->get('processing_fee_status');
+		$this->data['selected_application_ammount_status'] = $request->get('application_ammount_status');
+		$this->data['keyword'] = Str::lower($request->get('keyword'));
+		
+		if ($auth->type == "office_head") {
+			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$auth->department_id)->pluck('name', 'id')->toArray();
+		}elseif ($auth->type == "processor") {
+			$this->data['applications'] = ['' => "Choose Applications"] + Application::whereIn('id',explode(",", $auth->application_id))->pluck('name', 'id')->toArray();
+		}else{
+			$this->data['applications'] = ['' => "Choose Applications"] + Application::where('department_id',$request->get('department_id'))->pluck('name', 'id')->toArray();
+		}
+
+
+		$this->data['transactions'] = Transaction::where('status',"PENDING")->where('is_resent',0)->where(function($query){
+				if(strlen($this->data['keyword']) > 0){
+					return $query->WhereRaw("LOWER(company_name)  LIKE  '%{$this->data['keyword']}%'")
+							->orWhereRaw("LOWER(concat(fname,' ',lname))  LIKE  '%{$this->data['keyword']}%'")
+							->orWhereRaw("LOWER(code) LIKE  '%{$this->data['keyword']}%'");
+					}
+				})
+				->where(function($query){
+					if ($this->data['auth']->type == "office_head" || $this->data['auth']->type == "office_head") {
+						return $query->where('department_id',$this->data['auth']->department_id);
+					}else{
+						if(strlen($this->data['selected_department_id']) > 0){
+							return $query->where('department_id',$this->data['selected_department_id']);
+						}
+					}
+				})
+				->where(function($query){
+					if ($this->data['auth']->type == "processor") {
+						if(strlen($this->data['selected_application_id']) > 0){
+							return $query->where('application_id',$this->data['selected_application_id']);
+						}else{
+							return $query->whereIn('application_id',explode(",", $this->data['auth']->application_id));
+						}
+						
+					}else{
+						if(strlen($this->data['selected_application_id']) > 0){
+							return $query->where('application_id',$this->data['selected_application_id']);
+						}
+					}
+					
+				})
+				->where(function($query){
+					if(strlen($this->data['selected_processing_fee_status']) > 0){
+						return $query->where('payment_status',$this->data['selected_processing_fee_status']);
+					}
+				})
+				->where(function($query){
+					if(strlen($this->data['selected_application_ammount_status']) > 0){
+						return $query->where('application_payment_status',$this->data['selected_application_ammount_status']);
+					}
+				})
+				->where(DB::raw("DATE(created_at)"),'>=',$this->data['start_date'])
+				->where(DB::raw("DATE(created_at)"),'<=',$this->data['end_date'])
+				->orderBy('created_at',"DESC")->paginate($this->per_page);
+
+		return view('system.transaction.pending',$this->data);
+	}
 	public function approved (PageRequest $request){
 		$this->data['page_title'] = "Approved Transactions";
 		$auth = Auth::user();

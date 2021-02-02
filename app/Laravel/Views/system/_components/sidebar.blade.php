@@ -32,6 +32,13 @@
           </a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.inspection')}}">For Inspection
+            <!-- @if($counter['pending'] > 0)
+              <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
+            @endif -->
+          </a></li>
+        </ul>
+        <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.approved')}}">Approved
             <!-- @if($counter['approved'] > 0)
               <span class="badge badge-sm badge-primary">{{$counter['approved']}}</span>
