@@ -40,7 +40,7 @@
           @endif
         </div>
         <div class="form-group">
-          <label for="input_title">Default Cost</label>
+          <label for="input_title">Default Cost <code style="font-size: 12px;"><i>Note: Input 0 If there is no default cost</i></code></label>
           <input type="text" class="form-control {{$errors->first('default_cost') ? 'is-invalid' : NULL}}" id="input_title" name="default_cost" placeholder="Account Code" value="{{old('default_cost',$account_code->default_cost)}}">
           @if($errors->first('default_cost'))
           <p class="mt-1 text-danger">{!!$errors->first('default_cost')!!}</p>
