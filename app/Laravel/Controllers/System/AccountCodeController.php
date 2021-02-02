@@ -29,7 +29,7 @@ class AccountCodeController extends Controller
 	}
 
 	public function  index(PageRequest $request){
-		$this->data['page_title'] = "Account Code";
+		$this->data['page_title'] = "Account Codes";
 		$this->data['account_codes'] = AccountCode::orderBy('created_at',"DESC")->paginate($this->per_page);
 		return view('system.account-code.index',$this->data);
 	}

@@ -82,7 +82,7 @@
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.account_code.index','system.account_code.create','system.account_code.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.account_code.index')}}">
             <i class="fa fa-globe menu-icon"></i>
-            <span class="menu-title">Account Code</span>
+            <span class="menu-title">Account Codes</span>
           </a>
         </li>
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_requirements.index','system.application_requirements.create','system.application_requirements.edit')) ? 'active' : ''}}">
