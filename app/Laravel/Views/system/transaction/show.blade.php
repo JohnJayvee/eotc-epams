@@ -211,7 +211,7 @@
       var url = $(this).data('url');
       var self = $(this)
       Swal.fire({
-        title: 'Input Reference Numbe',
+        title: 'Input Reference Number',
         text: 'Use comma(,) as separator',
         content: '<span>test</span>',
         icon: 'warning',
