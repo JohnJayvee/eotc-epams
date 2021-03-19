@@ -7,23 +7,50 @@ class RegisterRequest extends RequestManager{
 
 	public function rules(){
 
-		$id = $this->route('id')?:0;
-		$rules = [
-			'fname' => "required",
-			'lname' => "required",
-			'region' => "required",
-			'town' => "required",
-			'brgy' => "required",
-			'street_name' => "required",
-			'unit_number' => "required",
-			'zipcode' => "required",
-			'birthdate' => "required",
-			'contact_number' => "required|max:10|phone:PH",
-			'email'	=> "required|unique:customer,email,{$id}",
-			'password'	=> "required|password_format|confirmed",
-		];
-		
+		$current_progress = $this->session()->get('current_progress');
+		// dd($current_progress);
+		$rules = [];
+		switch($current_progress){
+			case 1:
+				$rules = [
+					'email'		=> "required|unique:customer,email",
+					'password'		=> "required|password_format|confirmed",
+					'account_type'		=> "required",
+
+				];
+				if ($this->get('account_type') == "company") {
+					$rules['company_name'] = "required";
+					$rules['company_address'] = "required";
+					$rules['company_first_name'] = "required";
+					$rules['company_last_name'] = "required";
+					$rules['company_middle_name'] = "required";
+					$rules['company_email'] = "required";
+					$rules['tel_number'] = "required";
+					$rules['company_contact_number'] = "required|max:10|phone:PH";
+
+				}
+				if ($this->get('account_type') == "contractor") {
+					$rules['pcab_undertaking'] = "required";
+					$rules['validity_period'] = "required";
+					$rules['contractor_id'] = "required";
+					$rules['other_classification'] = "required";
+					$rules['classification'] = "required";
+					$rules['contractor_name'] = "required";
+					$rules['contractor_contact_number'] = "required|max:10|phone:PH";
+				}
+				break;
+			case 2:
+				$rules = [
+					'gov_id_1' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
+		            'gov_id_2' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
+		            'business_permit' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
+				];
+				break;
+			default:
+			break;
+		}
 		return $rules;
+
 	}
 
 	public function messages(){

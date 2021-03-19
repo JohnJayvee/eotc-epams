@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode,Services,PermitType};
 
 class ExistRecord
 {
@@ -100,6 +100,25 @@ class ExistRecord
 
                     $module = "account-code.index";
                 }
+            break;
+            case 'service':
+                if(! $this->__exist_service($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "service.index";
+                }
+            break;
+            case 'permit-type':
+                if(! $this->__exist_permit_type($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "permit-type.index";
+                }
+            break;
             
         }
 
@@ -187,6 +206,25 @@ class ExistRecord
 
         if($account_code){
             $request->merge(['account_code_data' => $account_code]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_service($request){
+        $service = Services::find($this->reference_id);
+        if($service){
+            $request->merge(['service_data' => $service]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    private function __exist_permit_type($request){
+        $permit_type= PermitType::find($this->reference_id);
+
+        if($permit_type){
+            $request->merge(['permit_type_data' => $permit_type]);
             return TRUE;
         }
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Laravel\Traits\DateFormatter;
 use Str;
 
-class BusinessPermit extends Model{
+class BusinessApplication extends Model{
     
     use SoftDeletes,DateFormatter;
     
@@ -63,8 +63,17 @@ class BusinessPermit extends Model{
     protected $casts = [
     ];
 
-    public function owner(){
-        return $this->BelongsTo("App\Laravel\Models\Customer",'customer_id','id');
+    public function customer(){
+        return $this->BelongsTo("App\Laravel\Models\Customer",'owner_user_id','id');
+    }
+    public function business(){
+        return $this->BelongsTo("App\Laravel\Models\Business",'business_id','id');
+    }
+    public function service(){
+        return $this->BelongsTo("App\Laravel\Models\Services",'service_id','id');
+    }
+    public function permit(){
+        return $this->BelongsTo("App\Laravel\Models\PermitType",'permit_id','id');
     }
 
 }

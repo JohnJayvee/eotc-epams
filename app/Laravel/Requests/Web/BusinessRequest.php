@@ -7,27 +7,38 @@ class BusinessRequest extends RequestManager{
 
 	public function rules(){
 
-		$id = $this->route('id')?:0;
-		$file = $this->file('file') ? count($this->file('file')) : 0;
+		$current_progress = $this->session()->get('current_progress');
 
-		$rules = [
-			'business_scope' => "required",
-			'business_type' => "required",
-			'dominant_name' => "required",
-			'business_name' => "required",
-			'business_line' => "required",
-			'capitalization' => "required",
-			'region' => "required",
-			'town' => "required",
-			'brgy' => "required",
-			'unit_no' => "required",
-			'street_address' => "required",
-			'email' => "required",
-			'mobile_no' => "required",
-			'telephone_no' => "required",
+		$rules = [];
 
-		];
-
+		switch($current_progress){
+			case 1:
+				$rules = [
+					'company_name'		=> "required",
+					'zone_id'		    => "required",
+				];
+				break;
+			case 2:
+				$rules = [
+					'brgy'		     => "required",
+					'town'		     => "required",
+					'region'		 => "required",
+					'exact_location' => "required",
+				];
+				break;
+			case 3:
+				$rules = [
+					'first_name'		     => "required",
+					'last_name'		     => "required",
+					'middle_name'		     => "required",
+					'email'		     => "required",
+					'mobile_number'		     => "required",
+					'telephone_number'		     => "required",
+				];
+				break;
+			default:
+			break;
+		}
 
 		return $rules;
 		

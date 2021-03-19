@@ -9,26 +9,38 @@
             <a class="brand-logo" href="{{route('web.main.index')}}">
                 <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="logo" class="img-fluid" width="30%" />
             </a>
+            
+            <div class="date-time pl-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span id="current_date" class=""></span>
+                    </div>
+                    <div class="col-md-12">
+                        <span id="current_time" class=""></span>
+                    </div>
+                </div>
+            </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="ti-menu"></span>
             </button>
-            <div class="date-time pl-4">
-                <i class="fa fa-calendar-alt" style="color: #C74A4F"> <span id="current_date" class=""></span></i>
-                <i class="fa fa-hourglass-half pl-4" style="color: #C74A4F"> <span id="current_time" class=""></span></i>
-            </div>
             <div class="collapse navbar-collapse h-auto" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto menu">
                     <li>
-                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , {{Str::title(Auth::guard('customer')->user()->fname)}}
+                        <a href="#" class="">Services <i class="fas fa-caret-down ml-2"></i></a>
+                        <ul class="sub-menu">
+                            <li><a href="{{route('web.business.index')}}">Business</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , {{ Auth::guard('customer')->user()->type == "company" ? Auth::guard('customer')->user()->company_first_name : Auth::guard('customer')->user()->contractor_name }}
                             <i class="fas fa-caret-down ml-2"></i>
                         </a>
                         <ul class="sub-menu">
-                            <li><a href="index.html">Edit Profile</a></li>
+                            <li><a href="{{route('web.profile.index')}}">Edit Profile</a></li>
                             <li><a href="index.html">Change Password</a></li>
+                            <li><a  href="{{route('web.logout')}}"> Log Out</span></a></li>
                         </ul>
                     </li>
-
-                    <li><a  href="{{route('web.logout')}}"><i class="fa fa-sign-out-alt"></i> Sign Out</span></a></li>
                 </ul>
             </div>
         </div>

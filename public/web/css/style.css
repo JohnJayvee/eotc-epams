@@ -243,6 +243,10 @@ strong, b ,span {
 .pb-100 {
     padding-bottom: 100px;
 }
+
+.pb-120 {
+    padding-bottom: 120px;
+}
 .pb-80 {
     padding-bottom: 80px;
 }
@@ -1467,11 +1471,10 @@ select.form-control.has-value{
     position: relative;
     display: -ms-flexbox;
     display: flex;
-    height: .45rem;
+    height: 2rem;
     overflow: hidden;
     font-size: .75rem;
     background-color: #ebebeb;
-    border-radius: 30px;
 }
 .progress-bar {
     display: -ms-flexbox;

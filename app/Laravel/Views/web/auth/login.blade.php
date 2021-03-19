@@ -12,45 +12,58 @@
     
   </style>
 </head>
-
 <body>
- <section class="hero-section hero-bg-1 ptb-100 full-screen">
-        <div class="container">
-            <div class="row align-items-center justify-content-center pt-5 pt-sm-5 pt-md-5 pt-lg-0">
-                <div class="col-md-4 col-lg-4">
-                    <div class="card login-signup-card shadow-lg mb-0">
-                        <div class="card-body px-md-5 py-5">
-                            <form action="" method="POST" class="login-signup-form">
-                                {{ csrf_field() }}
-                                @include('web._components.notifications')
-                            	<div class="brand-logo text-center">
-    				                <img src="{{asset('web/img/peza-epams-logo.png')}}" alt="logo" class="img-fluid" />
-    				             </div>
-                           	    <h5 class="h5 text-center mb-4">Sign in to your account</h5>
-                                <div class="form-group">
-                                    <input type="email" class="form-control login-input" placeholder="Email Address" name="email" value="{{old('email')}}">
-                                </div>
-                                <!-- Password -->
-                                <div class="form-group">
-                                    <input type="password" id="password-field" class="form-control login-input" placeholder="Password" name="password">
-                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                </div>
-                                <!-- Submit -->
-                                <button type="submit" class="btn btn-block secondary-solid-btn fw-500 mt-4 mb-3">
-                                    <i class="fa fa-sign-in-alt"></i> Sign In
-                                </button>
-                            </form>
-                            <div class="text-center">
-                            	<p class="fw-600 text-black mb-0">Don't have an account?</p>
-                            	<a href="{{route('web.register.index')}}" class="fw-600 sign-up">Sign Up</a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+ <section class="hero-section ptb-100 full-screen gray-light-bg">
+  <div class="container">
+    <div class="card login-card">
+      <div class="row no-gutters" style="height: 65vh;">
+        <div class="col-md-6">
+          <img src="{{asset('web/img/image-bg.png')}}" alt="login" class="login-card-img">
         </div>
-    </section>
+        <div class="col-md-6">
+          <div class="card-body">
+            <h2 class="login-card-description m-0">Welcome To <span><img src="{{asset('web/img/peza-epams-small.png')}}" alt="logo" class="logo"></span> </h2>
+            <p class="fw-600">Sign In to your Account</p>
+            <form action="" method="POST" class="login-signup-form">
+              {{ csrf_field() }}
+              @include('web._components.notifications')
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text text-title fw-600"><img src="{{asset('web/img/bx-envelope.svg')}}" alt="login"></span>
+                  </div>
+                  <input type="text" class="form-control br-left-white" name="email" placeholder="Email address" value="{{old('email')}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text text-title fw-600"><img src="{{asset('web/img/key.svg')}}" alt="login"></span>
+                  </div>
+                  <input type="password" id="password-field" class="form-control br-left-white" placeholder="Password" name="password">
+                  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-top: 20px"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="#!" class="forgot-password-link float-right mb-3" style="color: #E50621">Forgot password?</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-block sign-in-btn mb-4" type="button" value="Login" >Sign In</button>
+                </div>
+                <div class="col-md-6">
+                  <a  href="{{route('web.register.index')}}" class="shadow btn btn-block sign-up-btn mb-4"> Sign Up</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 </body>
 <script type="text/javascript">

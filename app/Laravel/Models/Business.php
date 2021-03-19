@@ -36,7 +36,7 @@ class Business extends Model{
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['company_name','zone_id','brgy','town','region','exact_location','first_name','last_name','middle_name','email','contact_number','telephone_number',];
 
 
     /**
@@ -65,6 +65,10 @@ class Business extends Model{
 
     public function owner(){
         return $this->BelongsTo("App\Laravel\Models\Customer",'customer_id','id');
+    }
+
+    public function zone(){
+        return $this->BelongsTo("App\Laravel\Models\ZoneLocation",'zone_id','id');
     }
 
 }

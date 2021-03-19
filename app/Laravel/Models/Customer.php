@@ -40,8 +40,7 @@ class Customer extends Authenticatable{
      * @var array
      */
 
-    protected $fillable = ['fname','lname','mname', 'email', 'contact_number',
-        'password'];
+    protected $fillable = [];
 
 
     public function getNameAttribute(){

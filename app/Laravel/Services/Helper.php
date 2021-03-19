@@ -396,6 +396,29 @@ class Helper{
 		return $slug;
 	}
 
+	public static function resolve_file_name($type)
+    {
+
+        switch ($type) {
+            case "gov_id_1": return 'Government ID 1' ;  break;
+            case "gov_id_2": return 'Government ID 2' ;  break;
+            case "business_permit": return 'Business Permit' ;  break;
+
+            case "bn_certificate": return 'BN Certificate' ;  break;
+            case "brgy_clearance": return 'Barangay Clearance' ;  break;
+            case "occupancy_permit": return 'Occupancy Permit' ;  break;
+            case "land_title": return 'Land Title' ;  break;
+            case "authorization_owner": return 'Authorization of Owner' ;  break;
+            case "photo_establishment": return 'Photo of Establishment' ;  break;
+            case "bir_itr_form": return 'BIR ITR Form Financial Statement' ;  break;
+            case '0': return 'Photo of Establishment' ;  break;
+        	case '1': return 'BIR ITR Form Financial Statement' ;  break;
+
+            default: return '';    break;
+        }
+    }
+
+
 	/**
 	 * Translates a number to a short alhanumeric version
 	 *

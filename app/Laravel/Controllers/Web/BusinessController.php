@@ -15,6 +15,8 @@ use App\Laravel\Requests\Web\UpdateBusinessAddressRequest;
 use App\Laravel\Models\Business;
 use App\Laravel\Models\BusinessPermit;
 use App\Laravel\Models\BusinessActivity;
+use App\Laravel\Models\ZoneLocation;
+
 
 /*
  * Models
@@ -25,7 +27,7 @@ use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl,L
 
 class BusinessController extends Controller
 {
-     protected $data;
+    protected $data;
 	protected $per_page;
 
 	public function __construct(){
@@ -37,6 +39,7 @@ class BusinessController extends Controller
 		$this->data['transaction_types'] = ['new' => "New Business",'renewal' => "Renewal"];
 		$this->data['permit_types'] = ['business_permis' => "Business Permit"];
 		$this->data['mode_of_payment'] = ['quarterly' => "Quarterly",'annually' => "Annually",'Semi-Annually' => "Semi-Annually"];
+		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();
 		$this->data['status'] = [ 'owned' => "Owned","leased" => "Leased"];
 		if (Auth::guard('customer')->user()) {
 			$this->data['auth'] = Auth::guard('customer')->user();
@@ -49,48 +52,138 @@ class BusinessController extends Controller
 	public function index(PageRequest $request){
 		$this->data['page_title'] = "Business Profile";
         $this->data['auth'] = Auth::guard('customer')->user();
+
+        $this->data['business'] = Business::where('customer_id' , $this->data['auth']->id)->get();
+
         return view('web.business.index',$this->data);
 	}
-	public function create(){
+	public function create(PageRequest $request){
 		$this->data['page_title'] = "Create Business CV";
 		$this->data['auth'] = Auth::guard('customer')->user();
 
-		return view('web.business.create',$this->data);
+		$current_progress = $request->session()->get('current_progress');
+
+		switch ($current_progress) {
+			case '1':
+				return view('web.business.create_1',$this->data);
+				break;
+			case '2':
+				return view('web.business.create_2',$this->data);
+				break;
+			case '3':
+				return view('web.business.create_3',$this->data);
+				break;
+			case '4':
+				return view('web.business.review',$this->data);
+				break;
+			default:
+				$request->session()->forget('business');
+				$request->session()->forget('current_progress');
+				return view('web.business.create_1',$this->data);
+				break;
+		}	
+		
 
 	}
-	public function store(BusinessRequest $request){
-		$auth = Auth::guard('customer')->user();
 
+	public function revert (PageRequest $request){
+		
+		$current_progress = $request->session()->get('current_progress');
+		if ($current_progress > 1) {
+			session()->put('current_progress',$current_progress - 1);
+			
+		}else{
+			session()->put('current_progress', 1);
+		}
+
+		return redirect()->route("web.business.create");
+	}
+	public function store(BusinessRequest $request){
+		$current_progress = $request->session()->get('current_progress');
+		
+		switch ($current_progress) {
+			case '1':
+				$request->session()->put('business.company_name',$request->get('company_name'));
+				$request->session()->put('business.zone_id',$request->get('zone_id'));
+				session()->put('current_progress',$current_progress + 1) ;
+				break;
+			case '2':
+				$request->session()->put('business.exact_location',$request->get('exact_location'));
+				$request->session()->put('business.region_name',$request->get('region_name'));
+				$request->session()->put('business.town_name',$request->get('town_name'));
+				$request->session()->put('business.brgy_name',$request->get('brgy_name'));
+				$request->session()->put('business.zipcode',$request->get('zipcode'));
+				$request->session()->put('business.region',$request->get('region'));
+				$request->session()->put('business.town',$request->get('town'));
+				$request->session()->put('business.brgy',$request->get('brgy'));
+
+				session()->put('current_progress',$current_progress + 1) ;
+				break;
+			case '3':
+				$request->session()->put('business.first_name',$request->get('first_name'));
+				$request->session()->put('business.last_name',$request->get('last_name'));
+				$request->session()->put('business.middle_name',$request->get('middle_name'));
+				$request->session()->put('business.email',$request->get('email'));
+				$request->session()->put('business.mobile_number',$request->get('mobile_number'));
+				$request->session()->put('business.telephone_number',$request->get('telephone_number'));
+				session()->put('current_progress',$current_progress + 1) ;
+				break;
+			case '4':
+				$new_business = new Business();
+				$new_business->customer_id = Auth::guard('customer')->user()->id;
+				$new_business->company_name = $request->session()->get('business.company_name'); 
+				$new_business->zone_id = $request->session()->get('business.zone_id');
+				$new_business->exact_location = $request->session()->get('business.exact_location');
+				$new_business->region_name = $request->session()->get('business.region_name');
+				$new_business->town_name = $request->session()->get('business.town_name');
+				$new_business->brgy_name = $request->session()->get('business.brgy_name');
+				$new_business->zipcode = $request->session()->get('business.zipcode');
+				$new_business->region = $request->session()->get('business.region');
+				$new_business->town = $request->session()->get('business.town');
+				$new_business->brgy = $request->session()->get('business.brgy');
+				$new_business->first_name = $request->session()->get('business.first_name');
+				$new_business->last_name = $request->session()->get('business.last_name');
+				$new_business->middle_name = $request->session()->get('business.middle_name');
+				$new_business->email = $request->session()->get('business.email');
+				$new_business->contact_number = $request->session()->get('business.mobile_number');
+				$new_business->telephone_number = $request->session()->get('business.telephone_number');
+
+				$new_business->save();
+
+				$request->session()->forget('current_progress');
+				$request->session()->forget('business');
+
+				session()->flash('notification-status', "success");
+				session()->flash('notification-msg','Business SuccessFully Added');
+				return redirect()->route('web.business.index');
+				break;
+			default:
+				break;
+		}
+		return redirect()->route("web.business.create");
+	}
+
+	public function edit(PageRequest $request ,$id = NULL){
+		$this->data['page_title'] = "Update Business CV";
+
+		$this->data['auth'] = Auth::guard('customer')->user();
+
+		$this->data['profile'] = Business::find($id);
+
+		return view('web.business.edit',$this->data);
+	}
+
+	public function update(UpdateBusinessRequest $request , $id = NULL){
 		DB::beginTransaction();
 		try{
-			$new_business = new Business;
-			$new_business->customer_id = $auth->id;
-			$new_business->business_scope = $request->get('business_scope');
-			$new_business->business_type = $request->get('business_type');
-			$new_business->dominant_name = $request->get('dominant_name');
-			$new_business->business_name = $request->get('business_name');
-			$new_business->business_line = $request->get('business_line');
-			$new_business->capitalization = $request->get('capitalization');
-			$new_business->region_name = $request->get('region_name');
-			$new_business->town_name = $request->get('town_name');
-			$new_business->region = $request->get('region');
-			$new_business->town = $request->get('town');
-			$new_business->brgy_name = $request->get('brgy_name');
-			$new_business->brgy = $request->get('brgy');
-			$new_business->zipcode = $request->get('zipcode');
-			$new_business->unit_no = $request->get('unit_no');
-			$new_business->street_address = $request->get('street_address');
-			$new_business->email = $request->get('email');
-			$new_business->mobile_no = $request->get('mobile_no');
-			$new_business->telephone_no = $request->get('telephone_no');
-			$new_business->tin_no = $request->get('tin_no');
-			$new_business->sss_no = $request->get('sss_no');
-			$new_business->philhealth_no = $request->get('philhealth_no');
-			$new_business->pagibig_no = $request->get('pagibig_no');
-			$new_business->save();
+			$this->data['auth'] = Auth::guard('customer')->user();
+
+			$profile = Business::find($id);
+			$profile->fill($request->all());
+			$profile->save();
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Business CV has been added.");
+			session()->flash('notification-msg', "Business CV has been updated.");
 			return redirect()->route('web.business.index');
 		}catch(\Exception $e){
 			DB::rollback();
@@ -98,25 +191,35 @@ class BusinessController extends Controller
 			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
 			return redirect()->back();
 		}
-
 	}
-	public function business_profile(PageRequest $request , $id = NULL){
 
+	public function profile(PageRequest $request , $id = NULL){
 		$this->data['page_title'] = "Business Profile";
-
         $this->data['profile'] = Business::find($id);
+        
+        $request->session()->forget('current_progress');
+		$request->session()->forget('registration');
 
 		return view('web.business.profile',$this->data);
 	}
-	public function business_edit(PageRequest $request ,$id = NULL){
-		$this->data['page_title'] = "Update Business CV";
 
-		$this->data['auth'] = Auth::guard('customer')->user();
-
-		$this->data['profile'] = Business::find($id);
-
-		return view('web.business.edit-business',$this->data);
+	public function  destroy(PageRequest $request,$id = NULL){
+		$business = Business::find($id);
+		DB::beginTransaction();
+		try{
+			$business->delete();
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Business CV removed successfully.");
+			return redirect()->route('system.business.index');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
 	}
+	
 	public function business_update(UpdateBusinessRequest $request , $id = NULL){
 		$this->data['auth'] = Auth::guard('customer')->user();
 		DB::beginTransaction();
@@ -331,7 +434,7 @@ class BusinessController extends Controller
 		}
 		return redirect()->route('web.business.permit',$id);
 	}
-	public function revert (PageRequest $request , $id  = NULL){
+	/*public function revert (PageRequest $request , $id  = NULL){
 
 		$current_progress = $request->session()->get('current_progress');
 		if ($current_progress > 1) {
@@ -343,6 +446,6 @@ class BusinessController extends Controller
 
 		return redirect()->route("web.business.permit",$id );
 	}
-
+*/
 }
 

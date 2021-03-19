@@ -11,6 +11,7 @@ Route::group(['as' => "web.",
 		Route::get('/', [ 'as' => "index",'uses' => "MainController@index"]);
 	});
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
+	Route::get('permit-type',['as' => "get_permit_type",'uses' => "MainController@get_permit_type"]);
 	Route::get('amount',['as' => "get_payment_fee",'uses' => "MainController@get_payment_fee"]);
 	Route::get('requirements',['as' => "get_requirements",'uses' => "MainController@get_requirements"]);
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
@@ -27,6 +28,7 @@ Route::group(['as' => "web.",
 		Route::group(['prefix'=> "register",'as' => 'register.' ],function(){
             Route::get('/', [ 'as' => "index",'uses' => "AuthController@register"]);
             Route::post('/', [ 'uses' => "AuthController@store"]);
+            Route::get('revert',['as' => "revert",'uses' => "AuthController@revert"]);
         });
 	});
 
@@ -40,27 +42,44 @@ Route::group(['as' => "web.",
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
         });
 
+
+        Route::group(['prefix' => "profile", 'as' => "profile."], function () {
+        	Route::get('/',['as' => "index",'uses' => "ProfileController@index"]);
+        	Route::post('/',['uses' => "ProfileController@update"]);
+
+        });	
+
         Route::group(['prefix' => "business", 'as' => "business."], function () {
 			Route::get('/',['as' => "index",'uses' => "BusinessController@index"]);
 			Route::get('create',['as' => "create",'uses' => "BusinessController@create"]);
 			Route::post('create',['uses' => "BusinessController@store"]);
-			Route::get('profile/{id?}',['as' => "profile",'uses' => "BusinessController@business_profile"]);
-			Route::get('edit-business/{id?}',['as' => "edit_business",'uses' => "BusinessController@business_edit"]);
-			Route::post('edit-business/{id?}',['uses' => "BusinessController@business_update"]);
+            Route::get('revert',['as' => "revert",'uses' => "BusinessController@revert"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "BusinessController@edit"]);
+			Route::post('edit/{id?}',['uses' => "BusinessController@update"]);
+			Route::get('profile/{id?}',['as' => "profile",'uses' => "BusinessController@profile"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "BusinessController@destroy"]);
+			
 			Route::get('edit-address/{id?}',['as' => "edit_address",'uses' => "BusinessController@business_address_edit"]);
 			Route::post('edit-address/{id?}',['uses' => "BusinessController@address_update"]);
 			Route::get('edit-others/{id?}',['as' => "edit_others",'uses' => "BusinessController@other_info_edit"]);
 			Route::post('edit-others/{id?}',['uses' => "BusinessController@other_info_update"]);
 			Route::get('permit/{id?}',['as' => "permit",'uses' => "BusinessController@permits"]);
 			Route::post('permit/{id?}',['uses' => "BusinessController@permit_store"]);
-            Route::get('revert/{id?}',['as' => "revert",'uses' => "BusinessController@revert"]);
+            Route::get('revert',['as' => "revert",'uses' => "BusinessController@revert"]);
 
-            Route::group(['prefix' => "application", 'as' => "application."], function () {
+            /*Route::group(['prefix' => "application", 'as' => "application."], function () {
                 Route::get('/',['as' => "index",'uses' => "BusinessApplicationController@index"]);
                 Route::get('/building-permit',['as' => "building_permit",'uses' => "BusinessApplicationController@building_permit"]);
-            });
+            });*/
 		});
 	});
+
+	 Route::group(['prefix' => "application", 'as' => "application."], function () {
+		Route::get('create/{id?}',['as' => "create",'uses' => "BusinessApplicationController@create"]);
+		Route::post('create/{id?}',['uses' => "BusinessApplicationController@store"]);
+		Route::get('revert/{id?}',['as' => "revert",'uses' => "BusinessApplicationController@revert"]);
+	});	
+
 	Route::get('pay/{code?}',['as' => "pay", 'uses' => "CustomerTransactionController@pay"]);
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
 	Route::get('upload/{code?}',['as' => "upload",'uses' => "CustomerTransactionController@upload"]);

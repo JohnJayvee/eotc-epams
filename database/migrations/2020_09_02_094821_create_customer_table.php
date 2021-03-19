@@ -15,25 +15,28 @@ class CreateCustomerTable extends Migration
     {
         Schema::create('customer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('fname')->nullable();
-            $table->string('lname')->nullable();
-            $table->string('mname')->nullable();
-            $table->string('region')->nullable();
-            $table->string('region_name')->nullable();
-            $table->string('town')->nullable();
-            $table->string('town_name')->nullable();
-            $table->string('barangay')->nullable();
-            $table->string('barangay_name')->nullable();
-            $table->string('street_name')->nullable();
-            $table->string('unit_number')->nullable();
-            $table->string('zipcode')->nullable();
-            $table->string('birthdate')->nullable();
-            $table->string('tin_no')->nullable();
-            $table->string('sss_no')->nullable();
-            $table->string('phic_no')->nullable();
-            $table->string('contact_number')->nullable();
+            
             $table->string('email')->nullable();
             $table->string('password')->nullable();
+            $table->string('type')->nullable();
+
+            $table->string('company_name')->nullable();
+            $table->string('company_address')->nullable();
+            $table->string('company_first_name')->nullable();
+            $table->string('company_last_name')->nullable();
+            $table->string('company_middle_name')->nullable();
+            $table->string('company_email')->nullable();
+            $table->string('tel_number')->nullable();
+            $table->string('company_contact_number')->nullable();
+
+            $table->string('pcab_undertaking')->nullable();
+            $table->string('validity_period')->nullable();
+            $table->string('contractor_id')->nullable();
+            $table->string('other_classification')->nullable();
+            $table->string('classification')->nullable();
+            $table->string('contractor_name')->nullable();
+            $table->string('contractor_contact_number')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

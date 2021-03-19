@@ -7,6 +7,7 @@ namespace App\Laravel\Controllers\Web;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Models\Application;
+use App\Laravel\Models\PermitType;
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\ApplicationRequirements;
 /*
@@ -26,11 +27,21 @@ class MainController extends Controller{
 
 	public function index(PageRequest $request){
 		$this->data['page_title'] = "Homepage";
+
+		$request->session()->forget('current_progress');
+		$request->session()->forget('registration');
+		$request->session()->forget('percent');
+
 		return view('web.homepage',$this->data);
 	}
 
 	public function contact(PageRequest $request){
 		$this->data['page_title'] = "Contact Us";
+
+		$request->session()->forget('current_progress');
+		$request->session()->forget('registration');
+		$request->session()->forget('percent');
+				
 		return view('web.page.contact',$this->data);
 	}
 	public function application(PageRequest $request){
@@ -46,6 +57,18 @@ class MainController extends Controller{
 		$response['msg'] = "List of Application";
 		$response['status_code'] = "TYPE_LIST";
 		$response['data'] = $application;
+		callback:
+
+
+		return response()->json($response, 200);
+	}
+
+	public function get_permit_type(PageRequest $request){
+		$id = $request->get('service_id');
+		$permit_type = PermitType::where('service_id',$id)->get()->pluck('name', 'id');
+		$response['msg'] = "List of Permit Type";
+		$response['status_code'] = "TYPE_LIST";
+		$response['data'] = $permit_type;
 		callback:
 
 

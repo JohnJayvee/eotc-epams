@@ -17,7 +17,7 @@
           </a>
         </li>
       @endif
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.index','system.transaction.show','system.transaction.declined','system.transaction.pending','system.transaction.approved','system.transaction.resent')) ? 'active' : ''}}">
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.show','system.transaction.declined','system.transaction.pending','system.transaction.approved','system.transaction.resent')) ? 'active' : ''}}">
       <a class="nav-link" data-toggle="collapse" href="#my_report" aria-expanded="false" aria-controls="my_report">
         <i class="fa fa-file menu-icon"></i>
         <span class="menu-title">Transactions</span>
@@ -66,6 +66,36 @@
         @endif
       </div>
     </li>
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.business_transaction.show','system.business_transaction.declined','system.business_transaction.pending','system.business_transaction.approved')) ? 'active' : ''}}">
+      <a class="nav-link" data-toggle="collapse" href="#business_transaction" aria-expanded="false" aria-controls="business_transaction">
+        <i class="fa fa-file menu-icon"></i>
+        <span class="menu-title">Business Transactions</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="business_transaction">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('system.business_transaction.pending')}}">Pending
+            <!-- @if($counter['pending'] > 0)
+              <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
+            @endif -->
+          </a></li>
+        </ul>
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('system.business_transaction.approved')}}">Approved
+            <!-- @if($counter['approved'] > 0)
+              <span class="badge badge-sm badge-primary">{{$counter['approved']}}</span>
+            @endif -->
+          </a></li>
+        </ul>
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('system.business_transaction.declined')}}">Declined
+            <!-- @if($counter['declined'] > 0)
+              <span class="badge badge-sm badge-primary">{{$counter['declined']}}</span>
+            @endif -->
+          </a></li>
+        </ul>
+      </div>
+    </li>
     @if(in_array($auth->type,['super_user','admin','office_head']))
       @if(in_array($auth->type,['super_user','admin']))
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application.index','system.application.create','system.application.edit')) ? 'active' : ''}}">
@@ -96,6 +126,18 @@
           <a class="nav-link" href="{{route('system.application_requirements.index')}}">
             <i class="fa fa-check-circle menu-icon"></i>
             <span class="menu-title">Application Requirements</span>
+          </a>
+        </li>
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.service.index','system.service.create','system.service.edit')) ? 'active' : ''}}">
+          <a class="nav-link" href="{{route('system.service.index')}}">
+            <i class="fa fa-globe menu-icon"></i>
+            <span class="menu-title">Service Types</span>
+          </a>
+        </li>
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.permit_type.index','system.permit_type.create','system.permit_type.edit')) ? 'active' : ''}}">
+          <a class="nav-link" href="{{route('system.permit_type.index')}}">
+            <i class="fa fa-globe menu-icon"></i>
+            <span class="menu-title">Permit Types</span>
           </a>
         </li>
       @endif

@@ -13,8 +13,8 @@ class BusinessPermitRequest extends RequestManager{
 		switch ($case) {
 			case '1':
 				$rules = [
+					'service_type' => "required",
 					'permit_type' => "required",
-					'transaction_type' => "required",
 
 				];
 				break;

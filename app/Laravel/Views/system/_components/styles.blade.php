@@ -242,15 +242,15 @@
         display: grid;
     }
     .suggestions-list {
-    float: left;
-    width: 100%;
-    padding: 13px 0 30px 0;
-}
+        float: left;
+        width: 100%;
+        padding: 13px 0 30px 0;
+    }
     .suggestion-usd {
-    float: left;
-    width: 100%;
-    padding: 15px 20px;
-}
+        float: left;
+        width: 100%;
+        padding: 15px 20px;
+    }
 
     .digit-group input{
         width: 30px;

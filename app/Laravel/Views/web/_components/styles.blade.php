@@ -11,8 +11,41 @@
 <link rel="stylesheet" href="{{asset('web/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('web/css/responsive.css')}}">
 <link rel="stylesheet" href="{{asset('web/css/site.css?v=1.02')}}">
+<link rel="stylesheet" href="{{asset('system/vendors/mdi/css/materialdesignicons.min.css')}}">
 
 <style type="text/css">
+    table tbody a { text-decoration: underline; }
+    table tbody .dropdown-menu a{ text-decoration: none; }
+    .card-body input:focus{
+        border: solid 2px !important;
+        border-color: black !important;
+    }
+    .form-card {
+        text-align: left
+    }
+    .action-dropdown{
+        font-size: 5em;
+        color: #0038A8;
+        line-height: 1
+    }
+    .dropdown-menu{
+        padding: 0px;
+        width: 15em;
+    }
+    .dropdown-item:hover{
+        background-color: #0038A8;
+        color:#fff;
+    }
+    .bg-white{
+        background-color: #fff;
+    }
+    .card-body.business{
+       padding: 1em 3em !important;
+    }
+    .business-card{
+        border-radius: 10px;
+    }
+  
     .bg-transparent.affix {background: rgba(29,29,31,0.72)!important;
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         backdrop-filter: saturate(180%) blur(20px);
@@ -82,10 +115,13 @@
         font-size: 12px;
     }
     .fs-14{
-        font-size: 14px;
+        font-size: 14px !important;
     }
     .fs-15{
-        font-size: 18px;
+        font-size: 18px !important;
+    }
+    .fs-16{
+        font-size: 20px;
     }
     .fw-500{
         font-weight: 500;
@@ -140,8 +176,8 @@
         background-image:
         linear-gradient(45deg, transparent 50%, #0235AA 60%),
         linear-gradient(135deg, #0235AA 40%, transparent 50%) !important;
-        background-position:calc(100% - 23px) 18px,calc(100% - 16px) 18px,100% 0;
-        background-size:5px 8px,8px 5px;
+        background-position:calc(100% - 23px) 25px,calc(100% - 13px) 25px,100% 0;
+        background-size:10px 10px,10px 10px;
         background-repeat: no-repeat;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -160,7 +196,7 @@
 
     .secondary-solid-btn {
         color: #f5f5f7;
-        background: #27437D;
+        background: #0038A8;
         border-radius: 8px;
         font-size:14px;
     }
@@ -222,6 +258,9 @@
     }
     .badge { font-family: 'SF Pro Display', sans-serif; font-weight: 400; }
 
+    .date-time{
+        color: #000;
+    }
     @media (max-width: 992px) and (min-width: 320px){
         .navbar {
             background: #fff!important;
@@ -436,6 +475,283 @@
       padding: 20px;
       background: #fff;
       min-height: 460px;
+    }
+
+    .brand-wrapper {
+        margin-bottom: 19px; 
+    }
+    .logo {
+        height: 37px; 
+    }
+
+    .login-card {
+        border: 0;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+        overflow: hidden; 
+    }
+    .login-card-img {
+        border-radius: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
+        object-fit: cover; 
+    }
+    .login-card .card-body {
+        padding: 85px 60px 60px; 
+    }
+
+    @media (max-width: 422px){
+        .login-card .card-body {
+            padding: 35px 24px; 
+        } 
+    }
+    .login-card-description {
+        color: #000;
+    }
+   
+    .login-card .sign-in-btn {
+        background-color: #0038A8;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 24px; 
+    }
+    .login-card .sign-in-btn:hover {
+        border: 1px solid #000;
+        background-color: transparent;
+        color: #000; 
+    }
+
+    .login-card .sign-up-btn {
+        background-color: #fff;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #0038A8;
+        margin-bottom: 24px; 
+    }
+    .login-card .sign-up-btn:hover {
+        border: 1px solid #E2E6EA;
+        background-color: #E2E6EA;
+        color: #000; 
+    }
+    .business-card:hover{
+        background-color: #0038A8;
+    }
+    .business-card:hover .business-details h5{
+        color: #fff !important;
+    }
+    .business-card:hover .business-details p{
+        color: #fff !important;
+    }
+    .business-card:hover .action-dropdown{
+        color: #fff !important;
+    }
+
+    .radio-item {
+        display: inline-block;
+        position: relative;
+        padding: 0 6px;
+        margin: 10px 0 0;
+    }
+
+    .radio-item input[type='radio'] {
+        display: none;
+    }
+
+    .radio-item label {
+        color: #000;
+        font-weight: bold !important;
+    }
+
+    .radio-item label:before {
+        content: " ";
+        display: inline-block;
+        position: relative;
+        top: 0px;
+        margin: 0 5px 0 0;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        border: 2px solid #fff;
+        background-color: transparent;
+        vertical-align: middle;
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .33);
+        cursor: pointer;
+    }
+
+    .radio-item input[type=radio]:checked + label:after {
+        border-radius: 50px;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 5px;
+        left: 11px;
+        content: " ";
+        display: block;
+        background: #004c97;
+    }
+
+
+    .card {
+        z-index: 0;
+        border: none;
+        position: relative
+    }
+
+    .fs-title {
+        font-size: 25px;
+        color: #673AB7;
+        margin-bottom: 15px;
+        font-weight: normal;
+        text-align: left
+    }
+
+    .purple-text {
+        color: #673AB7;
+        font-weight: normal
+    }
+
+    .steps {
+        font-size: 25px;
+        color: gray;
+        margin-bottom: 10px;
+        font-weight: normal;
+        text-align: right
+    }
+
+    .fieldlabels {
+        color: gray;
+        text-align: left
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: lightgrey
+    }
+
+    #progressbar .active {
+        color: #673AB7
+    }
+
+    #progressbar.business li {
+        list-style-type: none;
+        font-size: 15px;
+        width: 33.3%;
+        float: left;
+        position: relative;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 15px;
+        width: 50%;
+        float: left;
+        position: relative;
+        font-weight: 400;
+        text-align: center;
+    }
+    #progressbar #company_details:before {
+        font-family: FontAwesome;
+        content: "\f0f7"
+    }
+    #progressbar #address_details:before {
+        font-family: FontAwesome;
+        content: "\f041"
+    }
+    #progressbar #contact_details:before {
+        font-family: FontAwesome;
+        content: "\f095"
+    }
+    #progressbar #account_details:before {
+        font-family: FontAwesome;
+        content: "\f13e"
+    }
+   
+    #progressbar #upload:before {
+        font-family: FontAwesome;
+        content: "\f1c1"
+    }
+
+    #progressbar li:before {
+        width: 50px;
+        height: 50px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        color: #ffffff;
+        background: lightgray;
+        border-radius: 50%;
+        margin: 0 auto 10px auto;
+        padding: 2px;
+        text-align: center;
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: lightgray;
+        position: absolute;
+        left: 0;
+        top: 25px;
+        z-index: -1
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #673AB7
+    }
+
+    .progress {
+        height: 20px
+    }
+
+    .progress-bar {
+        background-color: #673AB7
+    }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+    .nav-pills .nav-link{
+        margin: 0px 25px;
+        padding: 0;
+        font-size: 17px;
+        font-weight: bold;
+        color: #ACAEAE;
+    }
+    .nav-pills .nav-link:hover{
+        color: #0038A8;
+        text-decoration: none;
+        border-bottom-width: 3px;
+        border-bottom-style: solid;
+        border-bottom-color: #0038A8;
+        background-color: #ffffff !important;
+        border-radius: 0px;
+        transition: color 0.3s linear;
+       -webkit-transition: color 0.3s linear;
+       -moz-transition: color 0.3s linear;
+    }
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        color: #0038A8;
+        text-decoration: none;
+        border-bottom-width: 3px;
+        border-bottom-style: solid;
+        border-bottom-color: #0038A8;
+        background-color: #ffffff !important;
+        padding: 0;
+        border-radius: 0px;
+    }
+    .tab-content{
+        margin: 2.5em 25px;
     }
 </style>
 

@@ -136,6 +136,30 @@ Route::group(['as' => "auth."], function(){
 			Route::get('list',['as' => "list",'uses' => "ProcessorController@list"]);
 			Route::get('show/{id?}',['as' => "show",'uses' => "ProcessorController@show"]);
 		});
+
+		Route::group(['as' => "service.",'prefix' => "service"], function(){
+			Route::get('/',['as' => "index",'uses' => "ServiceController@index"]);
+			Route::get('create',['as' => "create",'uses' => "ServiceController@create"]);
+			Route::post('create',['uses' => "ServiceController@store"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "ServiceController@edit",'middleware' => "system.exist:service"]);
+			Route::post('edit/{id?}',['uses' => "ServiceController@update",'middleware' => "system.exist:service"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ServiceController@destroy",'middleware' => "system.exist:service"]);
+		});
+		Route::group(['as' => "business_transaction.",'prefix' => "business-transaction"], function(){
+			Route::get('pending',['as' => "pending",'uses' => "BusinessTransactionController@pending"]);
+			Route::get('approved',['as' => "approved",'uses' => "BusinessTransactionController@approved"]);
+			Route::get('declined',['as' => "declined",'uses' => "BusinessTransactionController@declined"]);
+			Route::get('show/{id?}',['as' => "show",'uses' => "BusinessTransactionController@show"]);
+
+		});
+		Route::group(['as' => "permit_type.",'prefix' => "permit-type"], function(){
+			Route::get('/',['as' => "index",'uses' => "PermitTypeController@index"]);
+			Route::get('create',['as' => "create",'uses' => "PermitTypeController@create"]);
+			Route::post('create',['uses' => "PermitTypeController@store"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "PermitTypeController@edit",'middleware' => "system.exist:permit-type"]);
+			Route::post('edit/{id?}',['uses' => "PermitTypeController@update",'middleware' => "system.exist:permit-type"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "PermitTypeController@destroy",'middleware' => "system.exist:permit-type"]);
+		});
 	});
 
 	
