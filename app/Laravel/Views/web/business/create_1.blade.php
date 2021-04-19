@@ -2,11 +2,11 @@
 
 
 @section('content')
-{{ Session::put('current_progress',1) }}
+{{ Session::put('business_current_progress',1) }}
 <!--team section start-->
 <section class="px-120 pt-110 pb-120 gray-light-bg" >
-    <div class="container">
-        <div class="card" style="border-radius: 8px;">
+  <div class="container">
+    <div class="card login-signup-form" style="border-radius: 8px;">
       <div class="card-body">
         <form method="POST" action="" enctype="multipart/form-data" id="msform">
           {!!csrf_field()!!}
@@ -40,8 +40,7 @@
         </form>
       </div>
     </div>
-    </div>
-
+  </div>
 </section>
 <!--team section end-->
 

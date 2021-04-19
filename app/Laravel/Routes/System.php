@@ -68,6 +68,13 @@ Route::group(['as' => "auth."], function(){
 			Route::post('upload',['uses' => "DepartmentController@upload_department"]);
 		});
 
+		Route::group(['as' => "company.",'prefix' => "company"], function(){
+			Route::get('/',['as' => "index",'uses' => "CompanyController@index"]);
+			Route::any('delete/{id?}',['as' => "destroy",'uses' => "CompanyController@destroy",'middleware' => "system.exist:company"]);
+			Route::get('upload',['as' => "upload",'uses' => "CompanyController@upload"]);
+			Route::post('upload',['uses' => "CompanyController@upload_company"]);
+		});
+
 		Route::group(['as' => "account_code.",'prefix' => "account-code"], function(){
 			Route::get('/',['as' => "index",'uses' => "AccountCodeController@index"]);
 			Route::get('create',['as' => "create",'uses' => "AccountCodeController@create"]);
@@ -86,7 +93,9 @@ Route::group(['as' => "auth."], function(){
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ApplicationRequirementController@destroy",'middleware' => "system.exist:requirements"]);
 			Route::get('upload',['as' => "upload",'uses' => "ApplicationRequirementController@upload"]);
 			Route::post('upload',['uses' => "ApplicationRequirementController@upload_department"]);
-			
+			Route::get('permit',['as' => "permit",'uses' => "ApplicationRequirementController@permit"]);
+			Route::get('assign/{id?}',['as' => "assign",'uses' => "ApplicationRequirementController@assign",'middleware' => "system.exist:permit-type"]);
+			Route::post('assign/{id?}',['uses' => "ApplicationRequirementController@assigned",'middleware' => "system.exist:permit-type"]);
 		});
 		
 		Route::group(['as' => "zone_location.",'prefix' => "zone-location"], function(){
@@ -137,14 +146,7 @@ Route::group(['as' => "auth."], function(){
 			Route::get('show/{id?}',['as' => "show",'uses' => "ProcessorController@show"]);
 		});
 
-		Route::group(['as' => "service.",'prefix' => "service"], function(){
-			Route::get('/',['as' => "index",'uses' => "ServiceController@index"]);
-			Route::get('create',['as' => "create",'uses' => "ServiceController@create"]);
-			Route::post('create',['uses' => "ServiceController@store"]);
-			Route::get('edit/{id?}',['as' => "edit",'uses' => "ServiceController@edit",'middleware' => "system.exist:service"]);
-			Route::post('edit/{id?}',['uses' => "ServiceController@update",'middleware' => "system.exist:service"]);
-			Route::any('delete/{id?}',['as' => "destroy",'uses' => "ServiceController@destroy",'middleware' => "system.exist:service"]);
-		});
+	
 		Route::group(['as' => "business_transaction.",'prefix' => "business-transaction"], function(){
 			Route::get('pending',['as' => "pending",'uses' => "BusinessTransactionController@pending"]);
 			Route::get('approved',['as' => "approved",'uses' => "BusinessTransactionController@approved"]);
@@ -152,14 +154,7 @@ Route::group(['as' => "auth."], function(){
 			Route::get('show/{id?}',['as' => "show",'uses' => "BusinessTransactionController@show"]);
 
 		});
-		Route::group(['as' => "permit_type.",'prefix' => "permit-type"], function(){
-			Route::get('/',['as' => "index",'uses' => "PermitTypeController@index"]);
-			Route::get('create',['as' => "create",'uses' => "PermitTypeController@create"]);
-			Route::post('create',['uses' => "PermitTypeController@store"]);
-			Route::get('edit/{id?}',['as' => "edit",'uses' => "PermitTypeController@edit",'middleware' => "system.exist:permit-type"]);
-			Route::post('edit/{id?}',['uses' => "PermitTypeController@update",'middleware' => "system.exist:permit-type"]);
-			Route::any('delete/{id?}',['as' => "destroy",'uses' => "PermitTypeController@destroy",'middleware' => "system.exist:permit-type"]);
-		});
+		
 	});
 
 	

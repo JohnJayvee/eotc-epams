@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableBusinessActivity extends Migration
+class CreateBuildingPermitTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTableBusinessActivity extends Migration
      */
     public function up()
     {
-        Schema::create('business_activity', function (Blueprint $table) {
+        Schema::create('building_permit', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('owner_user_id')->nullable();
-            $table->string('business_id')->nullable();
-            $table->string('business_line')->nullable();
+            $table->string('application_id')->nullable();
+            $table->string('occupancy_classified')->nullable();
             $table->string('unit_no')->nullable();
-            $table->string('capitalization')->nullable();
-            $table->string('essentials')->nullable();
-            $table->string('non_essentials')->nullable();
+            $table->date('proposed_date')->nullable();
+            $table->date('expected_date')->nullable();
+            $table->string('related_permits')->nullable();
+            $table->string('floor_area')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +34,6 @@ class CreateTableBusinessActivity extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('business_activity');
+        Schema::dropIfExists('building_permit');
     }
 }

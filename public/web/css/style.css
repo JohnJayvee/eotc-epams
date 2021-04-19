@@ -4145,7 +4145,7 @@ a.sign-up:hover{
     text-align: center;
     white-space: nowrap;
     background-color: #fff;
-    border: 1px solid #d2ddec;
+    border: 2px solid #EAEAEA;
     border-radius: .375rem;
 }
 .form-control:focus{
@@ -4166,6 +4166,12 @@ a.sign-up:hover{
     border-radius: 7px;
     border: solid 2px;
     border-color: #EAEAEA;
+    height: calc(2.65em + .75rem + 2px);
+}
+.login-signup-form .input-group >.form-control{
+    border: solid 2px;
+    border-color: #EAEAEA;
+    border-left: none;
     height: calc(2.65em + .75rem + 2px);
 }
 .login-signup-form .form-group >.form-control:focus{

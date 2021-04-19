@@ -34,18 +34,17 @@
         <a href="{{route('system.processor.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap" style="table-layout: fixed;">
+    <div class="table-responsive shadow fs-15">
+      <table class="table  table-striped table-wrap">
         <thead>
           <tr>
-            <th width="25%" class="text-title p-3">Reference #</th>
-            <th width="25%" class="text-title p-3">Last Name</th>
-            <th width="25%" class="text-title p-3">First Name</th>
-            <th width="10%" class="text-title p-3">Department</th>
-            <th width="10%" class="text-title p-3">Status</th>
-            <th width="10%" class="text-title p-3">Type</th>
-            <th width="10%" class="text-title p-3">Date Created</th>
-            <th width="10%" class="text-title p-3">Action</th>
+            <th class="text-title p-3">Reference #</th>
+            <th class="text-title p-3">Last Name</th>
+            <th class="text-title p-3">First Name</th>
+            <th class="text-title p-3">Status</th>
+            <th class="text-title p-3">Type</th>
+            <th class="text-title p-3">Date Created</th>
+            <th class="text-title p-3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -54,7 +53,6 @@
             <td>{{ $processor->reference_id}}</td>
             <td>{{ Str::title($processor->lname)}}</td>
             <td>{{ Str::title($processor->fname)}}</td>
-            <td>{{ Str::title($processor->department ? $processor->department->name : "N/A")}}</td>
             <td>{{ Str::title($processor->status)}}</td>
             <td>{{ Str::title(str_replace("_"," ",$processor->type))}}</td>
             <td>{{ Helper::date_format($processor->created_at)}}</td>

@@ -61,8 +61,7 @@ class BusinessController extends Controller
 		$this->data['page_title'] = "Create Business CV";
 		$this->data['auth'] = Auth::guard('customer')->user();
 
-		$current_progress = $request->session()->get('current_progress');
-
+		$current_progress = $request->session()->get('business_current_progress');
 		switch ($current_progress) {
 			case '1':
 				return view('web.business.create_1',$this->data);
@@ -78,7 +77,7 @@ class BusinessController extends Controller
 				break;
 			default:
 				$request->session()->forget('business');
-				$request->session()->forget('current_progress');
+				$request->session()->forget('business_current_progress');
 				return view('web.business.create_1',$this->data);
 				break;
 		}	
@@ -88,24 +87,24 @@ class BusinessController extends Controller
 
 	public function revert (PageRequest $request){
 		
-		$current_progress = $request->session()->get('current_progress');
+		$current_progress = $request->session()->get('business_current_progress');
 		if ($current_progress > 1) {
-			session()->put('current_progress',$current_progress - 1);
+			session()->put('business_current_progress',$current_progress - 1);
 			
 		}else{
-			session()->put('current_progress', 1);
+			session()->put('business_current_progress', 1);
 		}
 
 		return redirect()->route("web.business.create");
 	}
 	public function store(BusinessRequest $request){
-		$current_progress = $request->session()->get('current_progress');
+		$current_progress = $request->session()->get('business_current_progress');
 		
 		switch ($current_progress) {
 			case '1':
 				$request->session()->put('business.company_name',$request->get('company_name'));
 				$request->session()->put('business.zone_id',$request->get('zone_id'));
-				session()->put('current_progress',$current_progress + 1) ;
+				session()->put('business_current_progress',$current_progress + 1) ;
 				break;
 			case '2':
 				$request->session()->put('business.exact_location',$request->get('exact_location'));
@@ -117,7 +116,7 @@ class BusinessController extends Controller
 				$request->session()->put('business.town',$request->get('town'));
 				$request->session()->put('business.brgy',$request->get('brgy'));
 
-				session()->put('current_progress',$current_progress + 1) ;
+				session()->put('business_current_progress',$current_progress + 1) ;
 				break;
 			case '3':
 				$request->session()->put('business.first_name',$request->get('first_name'));
@@ -126,7 +125,7 @@ class BusinessController extends Controller
 				$request->session()->put('business.email',$request->get('email'));
 				$request->session()->put('business.mobile_number',$request->get('mobile_number'));
 				$request->session()->put('business.telephone_number',$request->get('telephone_number'));
-				session()->put('current_progress',$current_progress + 1) ;
+				session()->put('business_current_progress',$current_progress + 1) ;
 				break;
 			case '4':
 				$new_business = new Business();
@@ -150,7 +149,7 @@ class BusinessController extends Controller
 
 				$new_business->save();
 
-				$request->session()->forget('current_progress');
+				$request->session()->forget('business_current_progress');
 				$request->session()->forget('business');
 
 				session()->flash('notification-status', "success");
@@ -197,7 +196,7 @@ class BusinessController extends Controller
 		$this->data['page_title'] = "Business Profile";
         $this->data['profile'] = Business::find($id);
         
-        $request->session()->forget('current_progress');
+        $request->session()->forget('business_current_progress');
 		$request->session()->forget('registration');
 
 		return view('web.business.profile',$this->data);
@@ -320,7 +319,7 @@ class BusinessController extends Controller
 		$this->data['auth'] = Auth::guard('customer')->user();
 		$this->data['id'] = $id;
 		$this->data['profile'] = Business::find($id);
-		$current_progress = $request->session()->get('current_progress');
+		$current_progress = $request->session()->get('business_current_progress');
 
 		switch ($current_progress) {
 			case '1':
@@ -341,13 +340,13 @@ class BusinessController extends Controller
 		$this->data['auth'] = Auth::guard('customer')->user();
 		$profile = Business::find($id);
 
-		$current_progress = $request->session()->get('current_progress');
+		$current_progress = $request->session()->get('business_current_progress');
 
 		switch ($current_progress) {
 			case '1':
 			    $request->session()->put('permit',$request->get('permit_type'));
 				$request->session()->put('type',$request->get('transaction_type'));
-				session()->put('current_progress',$current_progress + 1) ;
+				session()->put('business_current_progress',$current_progress + 1) ;
 				break;
 			case '2':
 				DB::beginTransaction();
@@ -417,7 +416,7 @@ class BusinessController extends Controller
 					}
 					DB::commit();
 					session()->flash('notification-status', "success");
-					session()->forget('current_progress');
+					session()->forget('business_current_progress');
 					session()->forget('type');
 					session()->flash('notification-msg', "Business Permit has been added.");
 					return redirect()->route('web.business.profile',[$id]);
@@ -436,12 +435,12 @@ class BusinessController extends Controller
 	}
 	/*public function revert (PageRequest $request , $id  = NULL){
 
-		$current_progress = $request->session()->get('current_progress');
+		$current_progress = $request->session()->get('business_current_progress');
 		if ($current_progress > 1) {
-			session()->put('current_progress',$current_progress - 1);
+			session()->put('business_current_progress',$current_progress - 1);
 
 		}else{
-			session()->put('current_progress', 1);
+			session()->put('business_current_progress', 1);
 		}
 
 		return redirect()->route("web.business.permit",$id );

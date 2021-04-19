@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Laravel\Traits\DateFormatter;
 use Str;
 
-class BusinessApplication extends Model{
+class BuildingPermit extends Model{
     
     use SoftDeletes,DateFormatter;
     
@@ -16,7 +16,7 @@ class BusinessApplication extends Model{
      *
      * @var string
      */
-    protected $table = "business_application";
+    protected $table = "building_permit";
 
     /**
      * The database connection used by the model.
@@ -36,7 +36,7 @@ class BusinessApplication extends Model{
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['occupancy_classified','unit_no','floor_area','proposed_date','expected_date','related_permits'];
 
 
     /**
@@ -63,24 +63,4 @@ class BusinessApplication extends Model{
     protected $casts = [
     ];
 
-    public function customer(){
-        return $this->BelongsTo("App\Laravel\Models\Customer",'owner_user_id','id');
-    }
-    public function business(){
-        return $this->BelongsTo("App\Laravel\Models\Business",'business_id','id');
-    }
-    public function service(){
-        return $this->BelongsTo("App\Laravel\Models\Services",'service_id','id');
-    }
-    public function permit(){
-        return $this->BelongsTo("App\Laravel\Models\PermitType",'permit_id','id');
-    }
-
-    public function building_permit(){
-        return $this->BelongsTo("App\Laravel\Models\BuildingPermit",'id','application_id');
-    }
-
-    public function getFullNameAttribute(){
-        return Str::title("{$this->last_name}".(strlen($this->middle_name) > 0 ? " ".Str::title($this->middle_name): NULL)." {$this->first_name}");
-    }
 }

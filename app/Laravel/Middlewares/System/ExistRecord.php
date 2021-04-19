@@ -3,7 +3,7 @@
 namespace App\Laravel\Middlewares\System;
 
 use Closure, Helper,Str;
-use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode,Services,PermitType};
+use App\Laravel\Models\{Department,ApplicationType,Application,User,Transaction,RegionalOffice,ApplicationRequirements,ZoneLocation,AccountCode,Services,PermitType,Company};
 
 class ExistRecord
 {
@@ -116,7 +116,16 @@ class ExistRecord
                     session()->flash('notification-status', "failed");
                     session()->flash('notification-msg', "No record found or resource already removed.");
 
-                    $module = "permit-type.index";
+                    $module = "application-requirements.permit-list";
+                }
+            break;
+            case 'company':
+                if(! $this->__exist_company($request)) {
+                    $found_record = false;
+                    session()->flash('notification-status', "failed");
+                    session()->flash('notification-msg', "No record found or resource already removed.");
+
+                    $module = "company.index";
                 }
             break;
             
@@ -230,5 +239,17 @@ class ExistRecord
 
         return FALSE;
     }
+
+    private function __exist_company($request){
+        $company= Company::find($this->reference_id);
+
+        if($company){
+            $request->merge(['company_data' => $company]);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
 
 }

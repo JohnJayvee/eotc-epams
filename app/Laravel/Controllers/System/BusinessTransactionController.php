@@ -10,7 +10,10 @@ use App\Laravel\Requests\PageRequest;
  * Models
  */
 use App\Laravel\Models\BusinessApplication;
+use App\Laravel\Models\BusinessApplicationFile;
+use App\Laravel\Models\BusinessScopeOfWork;
 use App\Laravel\Models\ApplicationBusinessPermitRequirements;
+
 
 /* App Classes
  */
@@ -27,6 +30,7 @@ class BusinessTransactionController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
+		$this->data['requirements'] =  User::pluck('name','id')->where('')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
@@ -48,7 +52,11 @@ class BusinessTransactionController extends Controller
 
 	public function show(PageRequest $request , $id = NULL){
 		$this->data['business_transaction'] = BusinessApplication::find($id);
-		$this->data['attachments'] = ApplicationBusinessPermitRequirements::where('application_id',$id)->get();
+		$this->data['business_sow'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"sow")->get();
+		$this->data['business_coc'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"coc")->get();
+		$this->data['business_installations'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"installation")->get();
+		$this->data['count_file'] = BusinessApplicationFile::where('application_id',$id)->count();
+		$this->data['attachments'] = BusinessApplicationFile::where('application_id',$id)->get();
 
 		return view('system.business-transaction.show',$this->data);
 

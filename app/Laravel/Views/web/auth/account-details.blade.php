@@ -102,24 +102,24 @@
             <div class="col-md-6 col-lg-6" id="validity_period_container">
               <div class="form-group">
                 <label class="text-form pb-2">Validity Period</label>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control form-control-lg datepicker br-right-white p-2" name="validity_period" placeholder="YYYY-MM-DD" value="{{old('validity_period',Session::get('registration.validity_period'))}}">
-                  <div class="input-group-append">
-                      <span class="input-group-text text-title fw-600"><i class="fa fa-calendar"></i></span>
-                  </div>
-                </div>
+                <input type="date" class="form-control form-control-lg br-right-white p-2" name="validity_period" placeholder="YYYY-MM-DD" value="{{old('validity_period',Session::get('registration.validity_period'))}}">
                 @if($errors->first('validity_period'))
                   <small class="form-text pl-1" style="color:red;">{{$errors->first('validity_period')}}</small>
                 @endif
               </div>
             </div>
-            <div class="col-md-6 col-lg-6" id="contact_number_container">
+            <div class="col-md-6 col-lg-16" id="contact_number_container">
               <div class="form-group">
-                <label class="text-form pb-2 fw-600">Mobile Number</label>
-                <input type="text" class="form-control form-control-lg {{ $errors->first('contractor_contact_number') ? 'is-invalid': NULL  }}" name="contractor_contact_number" placeholder="09XXXXXXXX" value="{{old('contractor_contact_number',Session::get('registration.contractor_contact_number'))}}">
-                @if($errors->first('contractor_contact_number'))
-                  <small class="form-text pl-1" style="color:red;">{{$errors->first('contractor_contact_number')}}</small>
-                @endif
+                  <label class="text-form pb-2 fw-600">Mobile Number</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text text-title fw-600" style="border-right: none;">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('contractor_contact_number') ? 'is-invalid': NULL  }}" name="contractor_contact_number" placeholder="XXX-XXX-XXXX" value="{{old('contractor_contact_number',Session::get('registration.contractor_contact_number'))}}">
+                  </div>
+                  @if($errors->first('contractor_contact_number'))
+                      <small class="form-text pl-1" style="color:red;">{{$errors->first('contractor_contact_number')}}</small>
+                  @endif
               </div>
             </div>
           </div>
@@ -194,7 +194,7 @@
             <div class="col-md-6 col-lg-16" id="middlename_container">
               <div class="form-group">
                 <label class="text-form pb-2 fw-600">Middle Name</label>
-                <input type="text" class="form-control form-control-lg {{ $errors->first('company_middle_name') ? 'is-invalid': NULL  }}" name="company_middle_name" placeholder="First Name" value="{{old('company_middle_name',Session::get('registration.company_middle_name'))}}">
+                <input type="text" class="form-control form-control-lg {{ $errors->first('company_middle_name') ? 'is-invalid': NULL  }}" name="company_middle_name" placeholder="Middle Name" value="{{old('company_middle_name',Session::get('registration.company_middle_name'))}}">
                 @if($errors->first('company_middle_name'))
                   <small class="form-text pl-1" style="color:red;">{{$errors->first('company_middle_name')}}</small>
                 @endif
@@ -213,17 +213,22 @@
           <div class="row">
             <div class="col-md-6 col-lg-16" id="mobile_container">
               <div class="form-group">
-                <label class="text-form pb-2 fw-600">Mobile Number</label>
-                <input type="text" class="form-control form-control-lg {{ $errors->first('company_contact_number') ? 'is-invalid': NULL  }}" name="company_contact_number" placeholder="First Name" value="{{old('company_contact_number',Session::get('registration.company_contact_number'))}}">
-                @if($errors->first('company_contact_number'))
-                  <small class="form-text pl-1" style="color:red;">{{$errors->first('company_contact_number')}}</small>
-                @endif
+                  <label class="text-form pb-2 fw-600">Mobile Number</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text text-title fw-600" style="border-right: none;">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('company_contact_number') ? 'is-invalid': NULL  }}" name="company_contact_number" placeholder="XXX-XXX-XXXX" value="{{old('company_contact_number',Session::get('registration.company_contact_number'))}}">
+                  </div>
+                  @if($errors->first('company_contact_number'))
+                      <small class="form-text pl-1" style="color:red;">{{$errors->first('company_contact_number')}}</small>
+                  @endif
               </div>
             </div>
             <div class="col-md-6 col-lg-16" id="telephone_container">
               <div class="form-group">
                 <label class="text-form pb-2 fw-600">Telephone Number</label>
-                <input type="text" class="form-control form-control-lg {{ $errors->first('tel_number') ? 'is-invalid': NULL  }}" name="tel_number" placeholder="Last Name" value="{{old('tel_number',Session::get('registration.tel_number'))}}">
+                <input type="text" class="form-control form-control-lg {{ $errors->first('tel_number') ? 'is-invalid': NULL  }}" name="tel_number" placeholder="(XX) XXX-XXXX" value="{{old('tel_number',Session::get('registration.tel_number'))}}">
                 @if($errors->first('tel_number'))
                   <small class="form-text pl-1" style="color:red;">{{$errors->first('tel_number')}}</small>
                 @endif

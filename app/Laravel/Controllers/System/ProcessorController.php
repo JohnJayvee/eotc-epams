@@ -13,7 +13,6 @@ use App\Laravel\Requests\System\ProcessorPasswordRequest;
  */
 use App\Laravel\Models\User;
 use App\Laravel\Models\Transaction;
-use App\Laravel\Models\Department;
 use App\Laravel\Models\Application;
 /* App Classes
  */
@@ -31,56 +30,23 @@ class ProcessorController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-		$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
-		if (Auth::user()->type == "admin" || Auth::user()->type == "office_head") {
-			$this->data['user_type'] = ['' => "Choose Type",'office_head' => "Department Head",'processor' => "Processor"];
-		}else {
 
-			$this->data['user_type'] = ['' => "Choose Type",'admin' => "Admin",'office_head' => "Department Head",'processor' => "Processor"];
-		}
-
+		$this->data['user_type'] = ['' => "Choose Type",'front_liner' => "Front Liner"];
 		$this->data['status_type'] = ['' => "Choose Status",'active' =>  "Active",'inactive' => "Inactive"];
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Accounts";
-		$auth = Auth::user();
 
-		switch ($auth->type) {
-			case 'office_head':
-				$this->data['processors'] = User::where('type',"processor")->where('department_id',$auth->department_id)->orderBy('created_at',"DESC")->get(); 
-				break;
-			default:
-				$this->data['processors'] = User::where('type','<>','super_user')->orderBy('created_at',"DESC")->get(); 
-				break;
-		}
+		$this->data['processors'] = User::where('type','<>',"super_user")->orderBy('created_at',"DESC")->get(); 
 		
 		return view('system.processor.index',$this->data);
 	}
 
 	public function  create(PageRequest $request){
 		$this->data['page_title'] .= "Processor - Add new record";
-		$auth = Auth::user();
 
-		if ($auth->type == "office_head") {
-			$this->data['applications'] = Application::where('department_id',$auth->department_id)->pluck('name', 'id')->toArray();
-		}else{
-			if(old('application_id') != NULL){
-		    	$this->data['applications'] = Application::where('department_id',old('department_id'))->pluck('name', 'id')->toArray();
-			}else{
-				$this->data['applications'] = Application::pluck('name', 'id')->toArray();
-			}
-		}
-		
-		$ref_num = User::where('type','<>','super_user')->withTrashed()->latest('id')->first();
-		$num =  $ref_num ? $ref_num->id : 1 ;
-
-		$this->data['reference_number'] = str_pad($num + 1, 5, "0", STR_PAD_LEFT);
-		
-		if ($auth->type == "office_head") {
-			return view('system.processor.processor-create',$this->data);
-		}
 		return view('system.processor.create',$this->data);
 	}
 
@@ -95,9 +61,6 @@ class ProcessorController extends Controller
 			$new_processor->mname = $request->get('mname');
 			$new_processor->email = $request->get('email');
 			$new_processor->type = strtolower($request->get('type'));
-			$new_processor->department_id = $auth->type == "office_head" ? $auth->department_id : $request->get('department_id');	
-			$new_processor->application_id = $request->get('application_id') ? implode(",", $request->get('application_id')) : NULL;
-			$new_processor->reference_id = $request->get('reference_number');
 			$new_processor->username = $request->get('username');
 			$new_processor->contact_number = $request->get('contact_number');
 			$new_processor->otp = substr($unique, 0, 10);
@@ -117,26 +80,29 @@ class ProcessorController extends Controller
 				}
 				
 			}
-			if ($new_processor->save()) {
-				$insert[] = [
-					'full_name' => $new_processor->fname ." " .$new_processor->lname,
-					'ref_id' => $new_processor->reference_id,
-	                'contact_number' => $new_processor->contact_number,
-	                'otp' => $new_processor->otp,
-	                'type' => $new_processor->type,
-	                'email' => $new_processor->email
-	            ];	
-				/*$notification_data = new SendProcessorReference($insert);
-			    Event::dispatch('send-sms-processor', $notification_data);*/
+			$new_processor->save();
+			$new_processor->reference_id =  str_pad($new_processor->id, 5, "0", STR_PAD_LEFT);
+			$new_processor->save();
+			$insert[] = [
+				'full_name' => $new_processor->fname ." " .$new_processor->lname,
+				'ref_id' => $new_processor->reference_id,
+                'contact_number' => $new_processor->contact_number,
+                'otp' => $new_processor->otp,
+                'type' => $new_processor->type,
+                'email' => $new_processor->email
+            ];	
 
-			    $notification_email_data = new SendEmailProcessorReference($insert);
-		    	Event::dispatch('send-email-reference', $notification_email_data);
+			/*$notification_data = new SendProcessorReference($insert);
+		    Event::dispatch('send-sms-processor', $notification_data);*/
 
-				DB::commit();
-				session()->flash('notification-status', "success");
-				session()->flash('notification-msg', "New ".str::title($new_processor->type)." has been added.");
-				return redirect()->route('system.processor.index');
-			}
+		    $notification_email_data = new SendEmailProcessorReference($insert);
+	    	Event::dispatch('send-email-reference', $notification_email_data);
+
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "New ".str::title(str_replace("_", " ", $new_processor->type))." has been added.");
+			return redirect()->route('system.processor.index');
+			
 			
 		}catch(\Exception $e){
 			DB::rollback();
@@ -174,8 +140,6 @@ class ProcessorController extends Controller
 			$processor->type = $request->get('type');
 			$processor->username = $request->get('username');
 			$processor->contact_number = $request->get('contact_number');
-			$processor->department_id = $request->get('department_id');
-			$processor->application_id = $request->get('application_id') ? implode(",", $request->get('application_id')) : NULL;
 			$processor->status = $request->get('status');
 			if($request->hasFile('file')) { 
 				$ext = $request->file->getClientOriginalExtension();

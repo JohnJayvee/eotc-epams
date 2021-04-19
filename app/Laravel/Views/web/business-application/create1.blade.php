@@ -64,8 +64,8 @@
             $.each(result.data,function(index,value){
               // console.log(index+value)
               $(input_purpose).append($('<option>', {
-                  value: index,
-                  text: value
+                  value: value,
+                  text: index
               }));
             })
 

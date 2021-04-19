@@ -13,7 +13,7 @@ class RegisterRequest extends RequestManager{
 		switch($current_progress){
 			case 1:
 				$rules = [
-					'email'		=> "required|unique:customer,email",
+					'email'		=> "required|email|unique:customer,email",
 					'password'		=> "required|password_format|confirmed",
 					'account_type'		=> "required",
 
@@ -24,8 +24,8 @@ class RegisterRequest extends RequestManager{
 					$rules['company_first_name'] = "required";
 					$rules['company_last_name'] = "required";
 					$rules['company_middle_name'] = "required";
-					$rules['company_email'] = "required";
-					$rules['tel_number'] = "required";
+					$rules['company_email'] = "required|email";
+					$rules['tel_number'] = "nullable";
 					$rules['company_contact_number'] = "required|max:10|phone:PH";
 
 				}
@@ -56,6 +56,7 @@ class RegisterRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
+			'max' => "5mb size file only",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
 			'password_format' => "Password must be 6-20 alphanumeric and some allowed special characters only.",
 		];

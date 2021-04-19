@@ -7,7 +7,7 @@ class BusinessRequest extends RequestManager{
 
 	public function rules(){
 
-		$current_progress = $this->session()->get('current_progress');
+		$current_progress = $this->session()->get('business_current_progress');
 
 		$rules = [];
 
@@ -30,10 +30,10 @@ class BusinessRequest extends RequestManager{
 				$rules = [
 					'first_name'		     => "required",
 					'last_name'		     => "required",
-					'middle_name'		     => "required",
-					'email'		     => "required",
+					'middle_name'		     => "nullable",
+					'email'		     => "required|email",
 					'mobile_number'		     => "required",
-					'telephone_number'		     => "required",
+					'telephone_number'		     => "nullable",
 				];
 				break;
 			default:

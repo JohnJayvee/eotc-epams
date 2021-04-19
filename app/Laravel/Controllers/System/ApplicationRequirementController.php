@@ -8,10 +8,12 @@ namespace App\Laravel\Controllers\System;
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\System\ApplicationRequirementsRequest;
 use App\Laravel\Requests\System\UploadRequest;
+
 /*
  * Models
  */
 use App\Laravel\Models\ApplicationRequirements;
+use App\Laravel\Models\PermitType;
 /* App Classes
  */
 
@@ -27,6 +29,7 @@ class ApplicationRequirementController extends Controller
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
 		$this->data['status_type'] = ['' => "Choose Type",'yes' =>  "Yes",'no' => "No"];
+		$this->data['requirements'] =  ApplicationRequirements::pluck('name','id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
@@ -106,9 +109,7 @@ class ApplicationRequirementController extends Controller
 		$this->data['page_title'] .= " - Bulk Upload Peza Unit";
 		return view('system.application-requirements.upload',$this->data);
 	}
-
-	public function upload_department(UploadRequest $request) 
-	{	
+	public function upload_department(UploadRequest $request) {	
 		try {
 		    Excel::import(new ApplicationRequirementsImport, request()->file('file'));
 
@@ -128,7 +129,36 @@ class ApplicationRequirementController extends Controller
 		    session()->flash('notification-status', "failed");
 			session()->flash('notification-msg', "Something went wrong.");
 			return redirect()->route('system.application_requirements.index');
+		}  
+	}
+	public function permit(PageRequest $request , $id = NULL){
+		$this->data['page_title'] = "Permit Type List";
+		$this->data['permits'] = PermitType::orderBy('created_at',"DESC")->paginate($this->per_page);
+		return view('system.application-requirements.permit-list',$this->data);
+	}
+
+	public function assign(PageRequest $request){
+		$this->data['page_title'] .= " - Assign Requirements";
+		$this->data['permit'] = $request->get('permit_type_data'); 
+		return view('system.application-requirements.assign',$this->data);
+	}
+
+	public function assigned(PageRequest $request, $id = NULL){
+		DB::beginTransaction();
+		try{
+			$permit_requirements = $request->get('permit_type_data');
+			$permit_requirements->requirements_id = implode(",", $request->get('requirements_id'));
+			$permit_requirements->save();
+
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Permit Requirements has been modified.");
+			return redirect()->route('system.application_requirements.permit');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
 		}
-	    
 	}
 }

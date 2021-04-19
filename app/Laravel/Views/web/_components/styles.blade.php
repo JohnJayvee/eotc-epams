@@ -16,7 +16,11 @@
 <style type="text/css">
     table tbody a { text-decoration: underline; }
     table tbody .dropdown-menu a{ text-decoration: none; }
-    .card-body input:focus{
+   
+    .check-input input:focus{
+         outline:none !important;
+    }
+    .form-control:focus{
         border: solid 2px !important;
         border-color: black !important;
     }
@@ -561,6 +565,9 @@
     .radio-item input[type='radio'] {
         display: none;
     }
+    .radio-item input[type='checkbox'] {
+        display: none;
+    }
 
     .radio-item label {
         color: #000;
@@ -584,6 +591,17 @@
     }
 
     .radio-item input[type=radio]:checked + label:after {
+        border-radius: 50px;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 5px;
+        left: 11px;
+        content: " ";
+        display: block;
+        background: #004c97;
+    }
+    .radio-item input[type=checkbox]:checked + label:after {
         border-radius: 50px;
         width: 40px;
         height: 40px;

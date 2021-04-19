@@ -44,7 +44,46 @@ class Helper{
 		}
 		return $result;
 	}
-
+	public static function find_coc($type = NULL){
+		switch ($type) {
+			case 'group_a':
+				return "Group A: Residential, Dwellings";
+				break;
+			case 'group_b':
+				return "Group B: Residential, Hotel, Apartment";
+				break;
+			case 'group_c':
+				return "Group C: Educational, Recreational";
+				break;
+			case 'group_d':
+				return "Group D: Institutional";
+				break;
+			case 'group_e':
+				return "Group E: Business & Mercantile";
+				break;
+			case 'group_f':
+				return "Group F: Industrial";
+				break;
+			case 'group_g':
+				return "Group G: Industrial Storage & Hazardous";
+				break;
+			case 'group_h':
+				return "Group H: Recreational, Assembly Occupant load less than 1000";
+				break;
+			case 'group_i':
+				return "Group I: Recreational, Assembly Occupant load 1000 or more";
+				break;
+			case 'group_j':
+				return "Group J: Agricultural, Accesory";
+				break;
+			case 'group_others':
+				return "Others";
+				break;
+			default:
+				return "N/A";
+				break;
+		}
+	}
 	public static function digipep_transaction(array $param){
 		$trans_id = $param['trans_token'];
 		// .Str::upper(Str::random(6))

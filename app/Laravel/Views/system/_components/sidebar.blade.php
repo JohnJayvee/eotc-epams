@@ -8,8 +8,8 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    @if(in_array($auth->type,['super_user','admin','processor','office_head']))
-      @if(in_array($auth->type,['super_user','admin','office_head']))
+    @if(in_array($auth->type,['super_user','front_liner']))
+      @if(in_array($auth->type,['super_user','front_liner']))
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.list','system.processor.show' )) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.processor.list')}}">
             <i class="fa fa-user-circle menu-icon"></i>
@@ -17,7 +17,7 @@
           </a>
         </li>
       @endif
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.show','system.transaction.declined','system.transaction.pending','system.transaction.approved','system.transaction.resent')) ? 'active' : ''}}">
+    {{-- <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.transaction.show','system.transaction.declined','system.transaction.pending','system.transaction.approved','system.transaction.resent')) ? 'active' : ''}}">
       <a class="nav-link" data-toggle="collapse" href="#my_report" aria-expanded="false" aria-controls="my_report">
         <i class="fa fa-file menu-icon"></i>
         <span class="menu-title">Transactions</span>
@@ -26,46 +26,26 @@
       <div class="collapse" id="my_report">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.pending')}}">Pending
-            <!-- @if($counter['pending'] > 0)
-              <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
-            @endif -->
           </a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.inspection')}}">For Inspection
-            <!-- @if($counter['pending'] > 0)
-              <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
-            @endif -->
           </a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.approved')}}">Approved
-            <!-- @if($counter['approved'] > 0)
-              <span class="badge badge-sm badge-primary">{{$counter['approved']}}</span>
-            @endif -->
           </a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.declined')}}">Declined
-            <!-- @if($counter['declined'] > 0)
-              <span class="badge badge-sm badge-primary">{{$counter['declined']}}</span>
-            @endif -->
           </a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.resent')}}">Resent
-           <!--  @if($counter['resent'] > 0)
-              <span class="badge badge-sm badge-primary">{{$counter['resent']}}</span>
-            @endif -->
           </a></li>
         </ul>
-        @if(in_array($auth->type,['processor']))
-        <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{route('system.transaction.create')}}">Create New</a></li>
-        </ul>
-        @endif
       </div>
-    </li>
+    </li> --}}
     <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.business_transaction.show','system.business_transaction.declined','system.business_transaction.pending','system.business_transaction.approved')) ? 'active' : ''}}">
       <a class="nav-link" data-toggle="collapse" href="#business_transaction" aria-expanded="false" aria-controls="business_transaction">
         <i class="fa fa-file menu-icon"></i>
@@ -96,18 +76,24 @@
         </ul>
       </div>
     </li>
-    @if(in_array($auth->type,['super_user','admin','office_head']))
-      @if(in_array($auth->type,['super_user','admin']))
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application.index','system.application.create','system.application.edit')) ? 'active' : ''}}">
+    @if(in_array($auth->type,['super_user','front_liner']))
+      @if(in_array($auth->type,['super_user','front_liner']))
+        <!-- <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application.index','system.application.create','system.application.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.application.index')}}">
             <i class="fa fa-bookmark menu-icon"></i>
             <span class="menu-title">Applications</span>
           </a>
-        </li>
+        </li> -->
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.department.index','system.department.create','system.department.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.department.index')}}">
             <i class="fa fa-globe menu-icon"></i>
             <span class="menu-title">Peza Unit</span>
+          </a>
+        </li>
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.company.index','system.company.upload')) ? 'active' : ''}}">
+          <a class="nav-link" href="{{route('system.company.index')}}">
+            <i class="fa fa-globe menu-icon"></i>
+            <span class="menu-title">Company</span>
           </a>
         </li>
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.zone_location.index','system.zone_location.create','system.zone_location.edit')) ? 'active' : ''}}">
@@ -123,22 +109,27 @@
           </a>
         </li>
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.application_requirements.index','system.application_requirements.create','system.application_requirements.edit')) ? 'active' : ''}}">
-          <a class="nav-link" href="{{route('system.application_requirements.index')}}">
-            <i class="fa fa-check-circle menu-icon"></i>
+          <a class="nav-link" data-toggle="collapse" href="#application_requirements" aria-expanded="false" aria-controls="application_requirements">
+            <i class="fa fa-file menu-icon"></i>
             <span class="menu-title">Application Requirements</span>
+            <i class="menu-arrow"></i>
           </a>
-        </li>
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.service.index','system.service.create','system.service.edit')) ? 'active' : ''}}">
-          <a class="nav-link" href="{{route('system.service.index')}}">
-            <i class="fa fa-globe menu-icon"></i>
-            <span class="menu-title">Service Types</span>
-          </a>
-        </li>
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.permit_type.index','system.permit_type.create','system.permit_type.edit')) ? 'active' : ''}}">
-          <a class="nav-link" href="{{route('system.permit_type.index')}}">
-            <i class="fa fa-globe menu-icon"></i>
-            <span class="menu-title">Permit Types</span>
-          </a>
+          <div class="collapse" id="application_requirements">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{{route('system.application_requirements.index')}}">Requirements List
+                <!-- @if($counter['pending'] > 0)
+                  <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
+                @endif -->
+              </a></li>
+            </ul>
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{{route('system.application_requirements.permit')}}">Assign to Permits
+                <!-- @if($counter['approved'] > 0)
+                  <span class="badge badge-sm badge-primary">{{$counter['approved']}}</span>
+                @endif -->
+              </a></li>
+            </ul>
+          </div>
         </li>
       @endif
         <!-- <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.regional_office.index','system.regional_office.create','system.regional_office.edit')) ? 'active' : ''}}">
@@ -147,7 +138,7 @@
             <span class="menu-title">Regional Offices</span>
           </a>
         </li> -->
-      @if(in_array($auth->type,['super_user','admin','office_head']))
+      @if(in_array($auth->type,['super_user','front_liner']))
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.report.index')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.report.index')}}">
             <i class="fa fa-chart-line menu-icon"></i>

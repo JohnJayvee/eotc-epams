@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermitTypeTable extends Migration
+class CreateElectricalPermitTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreatePermitTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('permit_type', function (Blueprint $table) {
+        Schema::create('electrical_permit', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('service_id')->nullable();
-            $table->string('name')->nullable();
-            $table->string('type')->nullable();
-            $table->string('requirements_id')->nullable();
+            $table->string('application_id')->nullable();
+            $table->string('connected_load')->nullable();
+            $table->string('transformer_capacity')->nullable();
+            $table->string('ups_capacity')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +31,6 @@ class CreatePermitTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permit_type');
+        Schema::dropIfExists('electrical_permit');
     }
 }

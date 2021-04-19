@@ -65,7 +65,7 @@ class MainController extends Controller{
 
 	public function get_permit_type(PageRequest $request){
 		$id = $request->get('service_id');
-		$permit_type = PermitType::where('service_id',$id)->get()->pluck('name', 'id');
+		$permit_type = PermitType::where('service_id',$id)->orderBy('name',"ASC")->get()->pluck('id', 'name');
 		$response['msg'] = "List of Permit Type";
 		$response['status_code'] = "TYPE_LIST";
 		$response['data'] = $permit_type;

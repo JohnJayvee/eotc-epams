@@ -5,14 +5,12 @@
 
 <!--team section start-->
 <section class="px-120 pt-110 pb-120 gray-light-bg" >
-    <div class="container">
-
-        <div class="card" style="border-radius: 8px;">
+  <div class="container">
+    <div class="card login-signup-form" style="border-radius: 8px;">
       <div class="card-body">
         <form method="POST" action="" enctype="multipart/form-data" id="msform">
           {!!csrf_field()!!}
           <!-- progressbar -->
-
           @include('web._components.business_progressbar')
          
             <div class="row mt-2">
@@ -48,7 +46,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">Email</label>
-                  <input type="email" class="form-control form-control-lg {{ $errors->first('email') ? 'is-invalid': NULL  }}" name="email" placeholder="username@email.com" value="{{old('email',Session::get('business.email'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('email') ? 'is-invalid': NULL  }}" name="email" placeholder="username@email.com" value="{{old('email',Session::get('business.email'))}}">
                   @if($errors->first('email'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('email')}}</small>
                   @endif
@@ -56,19 +54,24 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-lg-6">
+              <div class="col-md-6 col-lg-16" id="mobile_container">
                 <div class="form-group">
-                  <label class="text-form pb-2 fw-600">Mobile Number</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('mobile_number') ? 'is-invalid': NULL  }}" name="mobile_number" placeholder="09xxxxxxxxx" value="{{old('mobile_number',Session::get('business.mobile_number'))}}">
-                  @if($errors->first('mobile_number'))
-                    <small class="form-text pl-1" style="color:red;">{{$errors->first('mobile_number')}}</small>
-                  @endif
+                    <label class="text-form pb-2 fw-600">Mobile Number</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text text-title fw-600" style="border-right: none;">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
+                      </div>
+                      <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('mobile_number') ? 'is-invalid': NULL  }}" name="mobile_number" placeholder="XXX-XXX-XXXX" value="{{old('mobile_number',Session::get('registration.mobile_number'))}}">
+                    </div>
+                    @if($errors->first('mobile_number'))
+                        <small class="form-text pl-1" style="color:red;">{{$errors->first('mobile_number')}}</small>
+                    @endif
                 </div>
               </div>
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">Telephone Number</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('telephone_number') ? 'is-invalid': NULL  }}" name="telephone_number" placeholder="Telephone Number" value="{{old('telephone_number',Session::get('business.telephone_number'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('telephone_number') ? 'is-invalid': NULL  }}" name="telephone_number" placeholder="(XX) XXX-XXXX" value="{{old('telephone_number',Session::get('business.telephone_number'))}}">
                   @if($errors->first('telephone_number'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('telephone_number')}}</small>
                   @endif
@@ -81,8 +84,7 @@
         </form>
       </div>
     </div>
-    </div>
-
+  </div>
 </section>
 <!--team section end-->
 

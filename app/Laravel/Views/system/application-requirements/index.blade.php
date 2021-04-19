@@ -35,8 +35,8 @@
         <a href="{{route('system.application_requirements.create')}}" class="btn btn-sm btn-primary">Add New</a>
       </span>
     </h4>
-    <div class="shadow fs-15">
-      <table class="table table-responsive table-striped table-wrap w-auto" style="table-layout: fixed;">
+    <div class="table-responsive shadow fs-15">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th width="35%" class="text-title fs-15 fs-500 p-3">Name</th>
