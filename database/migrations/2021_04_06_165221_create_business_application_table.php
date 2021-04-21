@@ -19,7 +19,7 @@ class CreateBusinessApplicationTable extends Migration
             $table->string('business_id')->nullable();
             $table->string('service_id')->nullable();
             $table->string('permit_id')->nullable();
-
+            $table->string('document_reference_code')->nullable();
             //applicant details
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -48,15 +48,25 @@ class CreateBusinessApplicationTable extends Migration
             $table->string('region_name')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('is_agreement_check')->nullable();
+            $table->string('remarks')->nullable();
 
             $table->string('status')->default("PENDING")->nullable();
             $table->string('is_validated')->default("no")->nullable();
-            $table->date('validated_at')->nullable();
+            $table->datetime('validated_at')->nullable();
             $table->string('frontliner_id')->nullable();
-            $table->string('remarks')->nullable();
-            $table->string('engineer_id')->nullable();
-            $table->string('processed_at')->nullable();
 
+            $table->string('engineer_id')->nullable();
+            $table->string('engineer_status')->default("PENDING")->nullable();
+            $table->datetime('engineer_processed_at')->nullable();
+
+            $table->string('fire_department_id')->nullable();
+            $table->string('fire_department_status')->default("PENDING")->nullable();
+            $table->datetime('fire_department_processed_at')->nullable();
+
+            $table->string('process_by')->nullable();
+            $table->datetime('processed_at')->nullable();
+
+            $table->string('is_resent')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

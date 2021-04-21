@@ -66,6 +66,12 @@ class BusinessApplication extends Model{
     public function customer(){
         return $this->BelongsTo("App\Laravel\Models\Customer",'owner_user_id','id');
     }
+    public function frontliner(){
+        return $this->BelongsTo("App\Laravel\Models\User",'frontliner_id','id');
+    }
+    public function engineer(){
+        return $this->BelongsTo("App\Laravel\Models\User",'engineer_id','id');
+    }
     public function business(){
         return $this->BelongsTo("App\Laravel\Models\Business",'business_id','id');
     }
@@ -80,7 +86,17 @@ class BusinessApplication extends Model{
         return $this->BelongsTo("App\Laravel\Models\BuildingPermit",'id','application_id');
     }
 
+    public function fencing_permit(){
+        return $this->BelongsTo("App\Laravel\Models\FencingPermit",'id','application_id');
+    }
+
+     public function electrical_permit(){
+        return $this->BelongsTo("App\Laravel\Models\ElectricalPermit",'id','application_id');
+    }
+
     public function getFullNameAttribute(){
         return Str::title("{$this->last_name}".(strlen($this->middle_name) > 0 ? " ".Str::title($this->middle_name): NULL)." {$this->first_name}");
     }
+
+    
 }

@@ -1,19 +1,18 @@
-@extends('system._layouts.main')
+@extends('web._layouts.main')
+
 
 @section('content')
-<div class="row px-5 py-4">
-  <div class="col-12">
-    @include('system._components.notifications')
-    <div class="row ">
-      <div class="col-md-6">
-        <h5 class="text-title text-uppercase">{{$page_title}}</h5>
-      </div>
-      <div class="col-md-6 ">
-        <p class="text-dim  float-right">EOR-PHP Processor Portal / Business / Business Transaction Details</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 pt-4">
+
+
+
+<!--team section start-->
+<section class="px-120 pt-110 pb-80 gray-light-bg">
+  <div class="container">
+    <div class="row flex-row items-center px-4">
+            <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> Business Application Details</span></h5>
+            <a href="{{route('web.application.history',[$business_transaction->id])}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
+         </div>
+          
     <div class="card card-rounded shadow-sm">
       <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
@@ -217,37 +216,45 @@
             </tbody>
           </table>
         @endif
+        @if(count($assessments) > 0 and $business_transaction->status == "APPROVED")
+          <p class="text-title fw-500 mt-4">Assessment:</p>
+          <table class="table table-bordered">
+            <tr>
+              <th width="25%">FileName</th>
+              <th width="25%">Date Submitted</th>
+            </tr>
+            <tbody>
+              @forelse ($assessments as $assessment)
+              <tr>
+                <td><a href="{{$assessment->directory}}/{{$assessment->filename}}" target="_blank" class="fw-600">{{$assessment->original_name}}</a></td>
+                <td>{{Helper::date_format($assessment->created_at)}}</td>
+              </tr>
+              @empty
+              @endforelse
+            </tbody>
+          </table>
+        @endif
         <div class="card-body d-flex">
           <button class="btn btn-transparent p-3" data-toggle="collapse" data-target="#collapseExample"><i class="fa fa-download" style="font-size: 1.5rem;"></i></button>
           <p class="text-title pt-4 pl-3 fw-500">Review Attached Requirements: {{$count_file}} Item / s</p>
         </div>
       </div>
-    </div>
+    </div>    
     <div class="collapse pt-2" id="collapseExample">
       <div class="card card-body card-rounded">
         <div class="row justify-content-center">
           <table class="table table-striped">
             <thead>
               <th>FileName</th>
-              <th>File Type</th>
+              <th>Date Submitted</th>
               <th>Status</th>
-              <th>Action</th>
             </thead>
             <tbody>
             @forelse($attachments as $index => $attachment)
               <tr>
-                <td><a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank">{{$attachment->requirement->name}}</a></td>
-                <td>{{$attachment->type}}</td>
-                <td><span class="badge  badge-{{Helper::status_badge($attachment->status)}} p-2">{{$attachment->status}}</span></td>
-                @if($business_transaction->status == "PENDING")
-                  <td >
-                    <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                      <a class="dropdown-item btn-approved-requirements" href="#" data-url="{{route('system.business_transaction.process_file',[$attachment->id])}}?status=approved">Approve</a>
-                      <a class="dropdown-item btn-approved-requirements" href="#" data-url="{{route('system.business_transaction.process_file',[$attachment->id])}}?status=declined">Decline</a>
-                    </div>
-                  </td>
-                @endif
+                <td><a href="{{$attachment->directory}}/{{$attachment->filename}}" target="_blank" class="fw-600">{{$attachment->original_name}}</a></td>
+                <td>{{Helper::date_format($attachment->created_at)}}</td>
+                <td><p class="btn-sm text-center fw-600 text-black {{Helper::status_color($attachment->status)}}">{{Str::title($attachment->status)}}</p></td>
               </tr>
             @empty
             <h5>No Items available.</h5>
@@ -256,133 +263,39 @@
           </table>
         </div>
       </div>
-    </div> 
-    @if($business_transaction->is_validated == "no" and Auth::user()->type == "front_liner")
-      <a data-url="{{route('system.business_transaction.frontliner_validate',[$business_transaction->id])}}"  class="btn btn-primary mt-4 btn-validate border-5 text-white" ><i class="fa fa-check-circle"></i> Validate Transactions</a>
-    @endif
-
-    @if((Auth::user()->type == "engineer" and $business_transaction->engineer_status == "PENDING") || (Auth::user()->type == "fire_department" and $business_transaction->fire_department_status == "PENDING"))
-      @if($business_transaction->is_validated == "yes" and $business_transaction->status == "PENDING")
-        <a data-url="{{route('system.business_transaction.upload',[$business_transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white" ><i class="fa fa-check-circle"></i> Approved Transactions</a>
-      @endif
-      <a  data-url="{{route('system.business_transaction.declined',[$business_transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white"><i class="fa fa-times-circle"></i> Decline Transactions</a>
-    @endif
-    
+    </div>  
   </div>
-</div>
+
+</section>
+<!--team section end-->
+
+
 @stop
-
-
-
 @section('page-styles')
-<link rel="stylesheet" href="{{asset('system/vendors/sweet-alert2/sweetalert2.min.css')}}">
-<link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
-<style type="text/css" >
-  .input-daterange input{ background: #fff!important; }  
-  .isDisabled{
-    color: currentColor;
-    display: inline-block;  /* For IE11/ MS Edge bug */
-    pointer-events: none;
-    text-decoration: none;
-    cursor: not-allowed;
-    opacity: 0.5;
+<style type="text/css">
+  .custom-btn{
+    padding: 5px 10px;
+    border-radius: 10px;
+    height: 37px;
+  }
+  .custom-btn:hover{
+    background-color: #7093DC !important;
+    color: #fff !important;
+  }
+  .btn-status{
+    text-align: center;
+    border-radius: 10px;
+  }
+  .table-font th{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .table-font td{
+    font-size: 13px;
+    font-weight: bold;
+  }
+  p:not(:last-child) {
+    margin-bottom: .25em;
   }
 </style>
-@stop
-
-@section('page-scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="{{asset('system/vendors/sweet-alert2/sweetalert2.min.js')}}"></script>
-<script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
-<script type="text/javascript">
-  $(function(){
-    $('.input-daterange').datepicker({
-      format : "yyyy-mm-dd"
-    });
-
-    $(".btn-decline").on('click', function(){
-      var url = $(this).data('url');
-      var self = $(this)
-      Swal.fire({
-        title: "All the submitted requirements will be marked as declined. Are you sure you want to declined this application?",
-        
-        icon: 'warning',
-        input: 'text',
-        inputPlaceholder: "Put remarks",
-        showCancelButton: true,
-        confirmButtonText: 'Decline',
-        cancelButtonColor: '#d33'
-      }).then((result) => {
-        if (result.value === "") {
-          alert("You need to write something")
-          return false
-        }
-        if (result.value) {
-          window.location.href = url + "?remarks="+result.value;
-        } 
-      });
-    });
-
-    $(".btn-approved").on('click', function(){
-      var url = $(this).data('url');
-      var self = $(this)
-      Swal.fire({
-        title: 'Are you sure you want to approve and finalize this application?',
-        text: "You can't undo this action.",
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: `Proceed`,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          window.location.href = url
-        }
-      });
-    });
-
-    $(".btn-validate").on('click', function(){
-      var url = $(this).data('url');
-      var self = $(this)
-      var myArrayOfThings = {!! $json_list !!};
-      var options = {};
-      $.map(myArrayOfThings,
-        function(o) {
-          options[o.id] = o.name;
-        });
-      Swal.fire({
-        title: 'Assign Engineer',
-        icon: 'warning',
-        input: 'select',
-        inputOptions: options ,
-        showCancelButton: true,
-        confirmButtonText: 'Proceed',
-        cancelButtonColor: '#d33',
-      }).then((result) => {
-        if (result.value === "") {
-          alert("You need to write something")
-          return false
-        }
-        if (result.value) {
-          window.location.href = url + "?engineer_id="+result.value;
-        }
-      });
-    });
-    $(".btn-approved-requirements").on('click', function(){
-      var url = $(this).data('url');
-      var self = $(this)
-      Swal.fire({
-        title: 'Are you sure you want to modify this requirements?',
-        text: "You will not be able to undo this action, proceed?",
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: `Proceed`,
-      }).then((result) => {
-       
-        if (result.isConfirmed) {
-          window.location.href = url 
-        }
-      });
-    });
-  })
-</script>
-@stop
+@endsection

@@ -9,7 +9,15 @@
     <div class="card" style="border-radius: 8px;">
       <div class="card-body">
         @include('web._components.notifications')
-        <h3 class="p-4">Business CV</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <h3 class="p-4">Business CV</h3>
+          </div>
+          <div class="col-md-6 p-3">
+            <a href="{{ route('web.application.history',[$profile->id])}}" class="btn secondary-solid-btn float-right ">View Transactions</a>
+          </div>
+        </div>
+
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
           <li class="nav-item" role="presentation">
             <a href="#" class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#company_details" type="button" role="tab" aria-controls="company-details" aria-selected="true">Company Details</a>

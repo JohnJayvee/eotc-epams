@@ -149,10 +149,15 @@ Route::group(['as' => "auth."], function(){
 	
 		Route::group(['as' => "business_transaction.",'prefix' => "business-transaction"], function(){
 			Route::get('pending',['as' => "pending",'uses' => "BusinessTransactionController@pending"]);
+			Route::get('validated',['as' => "validated",'uses' => "BusinessTransactionController@validated"]);
 			Route::get('approved',['as' => "approved",'uses' => "BusinessTransactionController@approved"]);
 			Route::get('declined',['as' => "declined",'uses' => "BusinessTransactionController@declined"]);
 			Route::get('show/{id?}',['as' => "show",'uses' => "BusinessTransactionController@show"]);
-
+			Route::get('frontliner-validate/{id?}',['as' => "frontliner_validate",'uses' => "BusinessTransactionController@frontliner_validate"]);
+			Route::get('process-file/{id?}',['as' => "process_file",'uses' => "BusinessTransactionController@process_file"]);
+			Route::get('declined/{id?}',['as' => "declined",'uses' => "BusinessTransactionController@declined"]);
+			Route::get('upload/{id?}',['as' => "upload",'uses' => "BusinessTransactionController@upload"]);
+			Route::post('upload/{id?}',['uses' => "BusinessTransactionController@upload_documents"]);
 		});
 		
 	});

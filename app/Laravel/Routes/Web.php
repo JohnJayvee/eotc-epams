@@ -66,7 +66,6 @@ Route::group(['as' => "web.",
 			Route::get('permit/{id?}',['as' => "permit",'uses' => "BusinessController@permits"]);
 			Route::post('permit/{id?}',['uses' => "BusinessController@permit_store"]);
             Route::get('revert',['as' => "revert",'uses' => "BusinessController@revert"]);
-
             /*Route::group(['prefix' => "application", 'as' => "application."], function () {
                 Route::get('/',['as' => "index",'uses' => "BusinessApplicationController@index"]);
                 Route::get('/building-permit',['as' => "building_permit",'uses' => "BusinessApplicationController@building_permit"]);
@@ -78,12 +77,14 @@ Route::group(['as' => "web.",
 		Route::get('create/{id?}',['as' => "create",'uses' => "BusinessApplicationController@create"]);
 		Route::post('create/{id?}',['uses' => "BusinessApplicationController@store"]);
 		Route::get('revert/{id?}',['as' => "revert",'uses' => "BusinessApplicationController@revert"]);
+        Route::get('history/{id?}',['as' => "history",'uses' => "BusinessApplicationController@history"]);
+        Route::get('show/{id?}',['as' => "show",'uses' => "BusinessApplicationController@show"]);
 	});	
 
 	Route::get('pay/{code?}',['as' => "pay", 'uses' => "CustomerTransactionController@pay"]);
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
-	Route::get('upload/{code?}',['as' => "upload",'uses' => "CustomerTransactionController@upload"]);
-	Route::post('upload/{code?}',['uses' => "CustomerTransactionController@store_documents"]);
+	Route::get('upload/{code?}',['as' => "upload",'uses' => "BusinessApplicationController@upload"]);
+	Route::post('upload/{code?}',['uses' => "BusinessApplicationController@store_documents"]);
 	Route::get('request-eor/{code?}',['as' => "request-eor", 'uses' => "CustomerTransactionController@request_eor"]);
 	Route::get('show-pdf/{id?}',['as' => "show-pdf", 'uses' => "CustomerTransactionController@show_pdf"]);
 	Route::get('physical-copy/{id?}',['as' => "physical-copy", 'uses' => "CustomerTransactionController@physical_pdf"]);

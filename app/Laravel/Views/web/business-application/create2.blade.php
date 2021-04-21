@@ -242,7 +242,7 @@
 
             @include('web.permit.'.$permit->type)
 
-            @if($permit->type != "building_permit")
+            @if(!in_array($permit->type, ["building_permit","fencing_permit"]))
               <p class="text-title fw-600 mt-2 fs-15">Other Details</p>
             @endif
             <div class="row">

@@ -31,7 +31,7 @@ class MainController extends Controller{
 		$auth = $request->user();
 		$this->data['page_title'] .= "Dashboard";
 
-		if ($auth->type == "admin" || $auth->type == "super_user") {
+		if ($auth->type == "admin" || $auth->type == "super_user" || $auth->type == "engineer" || $auth->type == "front_liner" || $auth->type == "fire_department") {
 			$this->data['applications'] = Transaction::orderBy('created_at',"DESC")->get(); 
 			$this->data['pending'] = Transaction::where('status',"PENDING")->count();
 			$this->data['approved'] = Transaction::where('status',"APPROVED")->count(); 

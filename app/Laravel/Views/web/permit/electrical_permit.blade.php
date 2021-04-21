@@ -92,7 +92,7 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
-      <label class="text-form pb-2 fw-600">Total Transformet Capacity</label>
+      <label class="text-form pb-2 fw-600">Total Transformer Capacity</label>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text text-title fw-600 px-4">KVA</span>

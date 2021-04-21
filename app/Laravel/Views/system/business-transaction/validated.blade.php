@@ -73,7 +73,7 @@
           </tr>
           @empty
           <tr>
-           <td colspan="10" class="text-center"><i>No Business Transaction Records Available.</i></td>
+           <td colspan="8" class="text-center"><i>No Business Transaction Records Available.</i></td>
           </tr>
           @endforelse
           

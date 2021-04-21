@@ -31,7 +31,7 @@ class ProcessorController extends Controller
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
 
-		$this->data['user_type'] = ['' => "Choose Type",'front_liner' => "Front Liner"];
+		$this->data['user_type'] = ['' => "Choose Type",'front_liner' => "Front Liner" , 'engineer' => "Engineer" , 'fire_department' => "Fire Department"];
 		$this->data['status_type'] = ['' => "Choose Status",'active' =>  "Active",'inactive' => "Inactive"];
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}

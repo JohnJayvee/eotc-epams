@@ -3,9 +3,11 @@
 namespace App\Laravel\Controllers\Web;
 
 
-use App\Laravel\Models\{ApplicationRequirements,Business,BusinessApplication,BusinessApplicationFile,Services,PermitType,BusinessScopeOfWork,ApplicationBusinessPermitRequirements,BuildingPermit,ElectricalPermit};
+use App\Laravel\Models\{ApplicationRequirements,Business,BusinessApplication,BusinessApplicationFile,Services,PermitType,BusinessScopeOfWork,ApplicationBusinessPermitRequirements,BuildingPermit,ElectricalPermit,FencingPermit,Fixtures,Assessment};
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\Web\BusinessApplicationRequest;
+use App\Laravel\Requests\Web\UploadRequest;
+
 
 use Carbon,Auth,DB,Str,ImageUploader,Event,FileUploader,PDF,QrCode,Helper,Curl,Log;
 
@@ -19,8 +21,7 @@ class BusinessApplicationController extends Controller
         array_merge($this->data, parent::get_data());
         $this->data['services'] = ['' => "All Service Type"] + Services::pluck('name','id')->toArray();
 
-       
-        $this->data['permits'] = [''=>"--Choose Permit Type--",'building_permit' => "Building Permit"];
+        $this->data['fixtures'] = [''=>"--Choose Type--",'existing_fixtures' => "Existing Fixtures" , 'new_fixtures' => "New Fixtures"];
 
         $this->per_page = env("DEFAULT_PER_PAGE",10);
     }
@@ -119,6 +120,9 @@ class BusinessApplicationController extends Controller
                 $new_business_application->zip_code = $request->get('zip_code');
                 $new_business_application->is_agreement_check = $request->get('agreement_check');
                 $new_business_application->save();
+                
+                $new_business_application->document_reference_code = $new_business_application->document_reference_code = 'E-DOC-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_business_application->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
+                $new_business_application->save();
 
                 if ($request->get('scope_of_work')) {
                     foreach ($request->get('scope_of_work') as $key => $value) {
@@ -156,34 +160,6 @@ class BusinessApplicationController extends Controller
                         $sow->save();
                     }
                 }
-                if ($request->get('character_of_occupancy') || $request->get('permit_type') == "building_permit") {
-                    foreach ($request->get('character_of_occupancy') as $key => $value) {
-                        $coc = new BusinessScopeOfWork();
-                        $coc->name = $value;
-                        $coc->type = "coc";
-                        $coc->application_id = $new_business_application->id;
-                        
-                        if ($value == "others") {
-                            $coc->description = $request->get('group_others');
-                        }
-                        $coc->save();
-                    }
-                }
-
-                 if ($request->get('installation') || $request->get('permit_type') == "mechanical_permit") {
-                    foreach ($request->get('installation') as $key => $value) {
-                        $sow = new BusinessScopeOfWork();
-                        $sow->name = $value;
-                        $sow->slug = Str::slug($value);
-                        $sow->type = "installation";
-                        $sow->application_id = $new_business_application->id;
-
-                        if ($value == "others") {
-                            $sow->description = $request->get('others_installation');
-                        }
-                        $sow->save();
-                    }
-                }
 
                 switch ($request->get('permit_type')) {
                     case 'building_permit':
@@ -191,6 +167,20 @@ class BusinessApplicationController extends Controller
                             $new_building_permit->application_id = $new_business_application->id;
                             $new_building_permit->fill($request->all());
                             $new_building_permit->save();
+
+                            if ($request->get('character_of_occupancy')) {
+                                foreach ($request->get('character_of_occupancy') as $key => $value) {
+                                    $coc = new BusinessScopeOfWork();
+                                    $coc->name = $value;
+                                    $coc->type = "coc";
+                                    $coc->application_id = $new_business_application->id;
+                                    
+                                    if ($value == "others") {
+                                        $coc->description = $request->get('group_others');
+                                    }
+                                    $coc->save();
+                                }
+                            }
                         break;
                     case 'electrical_permit':
                             $new_electrical_permit = new ElectricalPermit();
@@ -198,11 +188,101 @@ class BusinessApplicationController extends Controller
                             $new_electrical_permit->fill($request->all());
                             $new_electrical_permit->save();
                         break;
+                    case 'fencing_permit':
+                            $new_fencing_permit = new FencingPermit();
+                            $new_fencing_permit->application_id = $new_business_application->id;
+                            $new_fencing_permit->fill($request->all());
+                            $new_fencing_permit->save();
+                            if ($request->get('clearance')) {
+                                foreach ($request->get('clearance') as $key => $value) {
+                                    $sow = new BusinessScopeOfWork();
+                                    $sow->name = $value;
+                                    $sow->slug = Str::slug($value);
+                                    $sow->type = "clearance";
+                                    $sow->application_id = $new_business_application->id;
+
+                                    if ($value == "other_clearance") {
+                                        $sow->description = $request->get('other_clearance');
+                                    }
+                                    $sow->save();
+                                }
+                            }
+                            if ($request->get('type_of_fencing')) {
+                                foreach ($request->get('type_of_fencing') as $key => $value) {
+                                    $sow = new BusinessScopeOfWork();
+                                    $sow->name = $value;
+                                    $sow->slug = Str::slug($value);
+                                    $sow->type = "fencing";
+                                    $sow->application_id = $new_business_application->id;
+
+                                    if ($value == "others") {
+                                        $sow->description = $request->get('others');
+                                    }
+                                    $sow->save();
+                                }
+                            }
+                        break;
+                    case 'mechanical_permit':
+                            if ($request->get('installation')) {
+                                foreach ($request->get('installation') as $key => $value) {
+                                    $sow = new BusinessScopeOfWork();
+                                    $sow->name = $value;
+                                    $sow->slug = Str::slug($value);
+                                    $sow->type = "installation";
+                                    $sow->application_id = $new_business_application->id;
+
+                                    if ($value == "others") {
+                                        $sow->description = $request->get('others_installation');
+                                    }
+                                    $sow->save();
+                                }
+                            }
+                        break;
+                    case 'plumbing_permit':
+                        if ($request->get('fixtures')) {
+                            foreach ($request->get('fixtures') as $key => $value) {
+                                $fixtures = new Fixtures();
+                                $fixtures->name = $value;
+                                $fixtures->fixture_type = $request->get('fixture_'.$value);
+                                $fixtures->qty = $request->get('qty_'.$value);
+                                $fixtures->application_id = $new_business_application->id;
+
+                                if ($value == "others") {
+                                    $fixtures->description = $request->get('other_fixture');
+                                }
+                                $fixtures->save();
+                            }
+                        }
+                        break;
                     default:
-                        
                         break;
                 }
-             
+                
+                if($request->get('requirements_id')) { 
+                    $req_id = explode(",", $request->get('requirements_id'));
+                    foreach ($req_id as $key => $image) {
+                        if ($request->file('file'.$image)) {
+                            $ext = $request->file('file'.$image)->getClientOriginalExtension();
+                            if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+                                $type = 'file';
+                                $original_filename = $request->file('file'.$image)->getClientOriginalName();
+                                $upload_image = FileUploader::upload($request->file('file'.$image), "uploads/documents/transaction/{$new_business_application->id}");
+                            } 
+                            $new_file = new BusinessApplicationFile;
+                            $new_file->path = $upload_image['path'];
+                            $new_file->directory = $upload_image['directory'];
+                            $new_file->filename = $upload_image['filename'];
+                            $new_file->type =$type;
+                            $new_file->original_name =$original_filename;
+                            $new_file->application_id = $new_business_application->id;
+                            $new_file->requirement_id = $image;
+                            $new_file->save();
+                        }
+                        
+                    }
+                }
+            
+
                 $request->session()->forget('current_progress');
                 $request->session()->forget('application');
 
@@ -215,6 +295,109 @@ class BusinessApplicationController extends Controller
                 break;
         }
         return redirect()->route("web.application.create",[$id]);
+
+    }
+
+   public function upload(PageRequest $request , $code = NULL){
+        $code = $request->has('code') ? $request->get('code') : $code;
+        $business_transaction = BusinessApplication::where('document_reference_code', $code)->first();
+
+        if(!$business_transaction || ($business_transaction AND $business_transaction->status != "DECLINED")){
+            session()->flash('notification-status',"failed");
+            session()->flash('notification-msg',"Record not found.");
+            return redirect()->route('web.main.index');
+        }
+
+        $this->data['application_requirements'] = BusinessApplicationFile::where('application_id',$business_transaction->id)->where('status',"DECLINED")->get();
+
+        $this->data['business_transaction'] = $business_transaction;
+                                        
+        return view('web.page.upload', $this->data);
+    }
+
+    public function store_documents(UploadRequest $request , $code = NULL){
+
+        $code = $request->has('code') ? $request->get('code') : $code;
+        $business_transaction = BusinessApplication::where('document_reference_code', $code)->first();
+        
+        if(!$business_transaction){
+            session()->flash('notification-status',"failed");
+            session()->flash('notification-msg',"Record record not found.");
+            return redirect()->route('web.main.index');
+        }
+
+        try{
+            DB::beginTransaction();
+
+            $business_transaction->status = "PENDING";
+            $business_transaction->is_resent = 1;
+            $business_transaction->save();
+    
+            //store transaction requirement
+            if($request->get('requirements_id')) { 
+                $req_id = $request->get('requirements_id');
+                foreach ($req_id as $key => $image) {
+                    if ($request->file('file'.$image)) {
+                        $ext = $request->file('file'.$image)->getClientOriginalExtension();
+                        if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
+                            $type = 'file';
+                            $original_filename = $request->file('file'.$image)->getClientOriginalName();
+                            $upload_image = FileUploader::upload($request->file('file'.$image), "uploads/documents/transaction/{$business_transaction->transaction_code}");
+                        } 
+                        $new_file = new BusinessApplicationFile;
+                        $new_file->path = $upload_image['path'];
+                        $new_file->directory = $upload_image['directory'];
+                        $new_file->filename = $upload_image['filename'];
+                        $new_file->type =$type;
+                        $new_file->original_name =$original_filename;
+                        $new_file->application_id = $business_transaction->id;
+                        $new_file->requirement_id = $image;
+                        $new_file->save();
+                    }
+                    
+                }
+            }
+
+            DB::commit();
+
+            session()->flash('notification-status',"success");
+            session()->flash('notification-msg',"Documents was successfully submitted. Please wait for the processor validate your application. You will received an email once application is approved containing your reference code for payment.");
+            return redirect()->route('web.main.index');
+
+        }catch(\Exception $e){
+            DB::rollBack();
+
+            session()->flash('notification-status',"failed");
+            session()->flash('notification-msg',"Server Error. Please try again.".$e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function history(PageRequest $request , $id = NULL){
+        $this->data['business_id'] = $id; 
+        $this->data['business_transactions'] = BusinessApplication::where('business_id' , $id)->orderBy('created_at',"DESC")->get();
+        $this->data['page_title'] = "Business Application history";
+        return view('web.business-application.history',$this->data);
+    }
+
+    public function show(PageRequest $request , $id = NULL){
+
+        $this->data['page_title'] = "Business Application Details"; 
+        $this->data['business_transaction'] = BusinessApplication::find($id);
+        $this->data['business_sow'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"sow")->get();
+        $this->data['business_coc'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"coc")->get();
+        $this->data['business_installations'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"installation")->get();
+        $this->data['business_clearances'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"clearance")->get();
+        $this->data['business_fencing'] = BusinessScopeOfWork::where('application_id',$id)->where('type',"fencing")->get();
+
+        $this->data['fixtures'] = Fixtures::where('application_id',$id)->get();
+
+        $this->data['count_file'] = BusinessApplicationFile::where('application_id',$id)->count();
+        $this->data['attachments'] = BusinessApplicationFile::where('application_id',$id)->get();
+
+        $this->data['assessments'] = Assessment::where('application_id',$id)->get();
+
+        return view('web.business-application.show',$this->data);
 
     }
 }

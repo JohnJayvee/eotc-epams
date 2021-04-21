@@ -8,7 +8,7 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    @if(in_array($auth->type,['super_user','front_liner']))
+    @if(in_array($auth->type,['super_user','front_liner','engineer','fire_department']))
       @if(in_array($auth->type,['super_user','front_liner']))
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.processor.list','system.processor.show' )) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.processor.list')}}">
@@ -46,7 +46,7 @@
         </ul>
       </div>
     </li> --}}
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.business_transaction.show','system.business_transaction.declined','system.business_transaction.pending','system.business_transaction.approved')) ? 'active' : ''}}">
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.business_transaction.show','system.business_transaction.declined','system.business_transaction.pending','system.business_transaction.approved','system.business_transaction.validated')) ? 'active' : ''}}">
       <a class="nav-link" data-toggle="collapse" href="#business_transaction" aria-expanded="false" aria-controls="business_transaction">
         <i class="fa fa-file menu-icon"></i>
         <span class="menu-title">Business Transactions</span>
@@ -60,6 +60,15 @@
             @endif -->
           </a></li>
         </ul>
+        @if(in_array($auth->type,['super_user','front_liner']))
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{route('system.business_transaction.validated')}}">Validated
+            <!-- @if($counter['pending'] > 0)
+              <span class="badge badge-sm badge-primary">{{$counter['pending']}}</span>
+            @endif -->
+          </a></li>
+        </ul>
+        @endif
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="{{route('system.business_transaction.approved')}}">Approved
             <!-- @if($counter['approved'] > 0)

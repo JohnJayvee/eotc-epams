@@ -66,6 +66,12 @@ class BusinessApplicationRequest extends RequestManager{
 					$rules['transformer_capacity'] = "required";
 					$rules['ups_capacity'] = "required";
 				}
+				if ($this->get('permit_type') == "fencing_permit") {
+					$rules['clearance'] = "required";
+					$rules['type_of_fencing'] = "required";
+					$rules['length'] = "required";
+					$rules['height'] = "required";
+				}
 				
 				$required = ApplicationRequirements::whereIn('id',explode(",", $this->get('requirements_id')))->where('is_required',"yes")->get();
 				foreach ($required as $key => $value) {

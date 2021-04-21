@@ -2,6 +2,8 @@
 
 namespace App\Laravel\Services;
 use App\Laravel\Models\Transaction;
+use App\Laravel\Models\BusinessApplicationFile;
+
 use Route,Str,Carbon,Input,DB,DateTime,DateInterval,DatePeriod;
 
 class Helper{
@@ -622,6 +624,12 @@ class Helper{
 
 		return $application_count;
 		
+	}
+
+	public static function count_decline_file($id){
+		$file_count = BusinessApplicationFile::where('application_id' , $id)->where('status',"DECLINED")->count();
+
+		return $file_count;
 	}
 }
 
