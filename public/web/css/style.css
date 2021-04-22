@@ -4246,3 +4246,7 @@ input[type=password]::-ms-clear
 .subscribe-form-footer.subscribe-form-two{
     top: 0;
 }
+
+.sidebar-activity{
+    padding-top: 44.08px;
+}
