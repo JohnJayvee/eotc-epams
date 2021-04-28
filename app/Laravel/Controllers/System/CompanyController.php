@@ -7,10 +7,14 @@ namespace App\Laravel\Controllers\System;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\System\UploadRequest;
+use App\Laravel\Requests\System\CompanyRequest;
+
 /*
  * Models
  */
 use App\Laravel\Models\Company;
+use App\Laravel\Models\ZoneLocation;
+
 /* App Classes
  */
 use App\Laravel\Models\Imports\CompanyImport;
@@ -26,17 +30,23 @@ class CompanyController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
+		$this->data['zone_locations'] =  ['' => "All Zone Locations"] +  ZoneLocation::pluck('ecozone','code')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 	public function  index(PageRequest $request){
 		$this->data['page_title'] = "Company";
-		$this->data['companies'] = Company::orderBy('created_at',"DESC")->paginate($this->per_page);
+		$this->data['companies'] = Company::where('status',"APPROVED")->orderBy('created_at',"DESC")->paginate($this->per_page);
 		return view('system.company.index',$this->data);
+	}
+	public function  pending(PageRequest $request){
+		$this->data['page_title'] = "Company";
+		$this->data['companies'] = Company::where('status' , "PENDING")->orderBy('created_at',"DESC")->paginate($this->per_page);
+		return view('system.company.pending',$this->data);
 	}
 
 	public function  destroy(PageRequest $request,$id = NULL){
-		$company = $request->get('company_date');
+		$company = $request->get('company_data');
 		DB::beginTransaction();
 		try{
 			$company->delete();
@@ -80,5 +90,32 @@ class CompanyController extends Controller
 			return redirect()->route('system.company.index');
 		}
 	    
+	}
+
+	public function  process(PageRequest $request , $id = NULL){
+		$this->data['page_title'] .= " - Process Company Request";
+		$this->data['company'] = $request->get('company_data');
+		return view('system.company.process',$this->data);
+	}
+
+	public function approved(CompanyRequest $request , $id = NULL){
+		DB::beginTransaction();
+		try{
+			$company = $request->get('company_data');
+			$company->fill($request->all());
+			$company->status = "APPROVED";
+			$company->approved_at = Carbon::now();
+			$company->approved_by = Auth::user()->id;
+			$company->save();
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Company approved successfully.");
+			return redirect()->route('system.company.index');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
 	}
 }

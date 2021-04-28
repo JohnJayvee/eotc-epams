@@ -99,12 +99,29 @@
             <span class="menu-title">Peza Unit</span>
           </a>
         </li>
-        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.company.index','system.company.upload')) ? 'active' : ''}}">
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.company.pending','system.company.index','system.company.upload')) ? 'active' : ''}}">
+          <a class="nav-link" data-toggle="collapse" href="#company" aria-expanded="false" aria-controls="company">
+            <i class="fa fa-file menu-icon"></i>
+            <span class="menu-title">Company</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="company">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{{route('system.company.index')}}">List
+              </a></li>
+            </ul>
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="{{route('system.company.pending')}}">Pending
+              </a></li>
+            </ul>
+          </div>
+        </li>
+        {{-- <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.company.index','system.company.upload')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.company.index')}}">
             <i class="fa fa-globe menu-icon"></i>
             <span class="menu-title">Company</span>
           </a>
-        </li>
+        </li> --}}
         <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.zone_location.index','system.zone_location.create','system.zone_location.edit')) ? 'active' : ''}}">
           <a class="nav-link" href="{{route('system.zone_location.index')}}">
             <i class="fa fa-compass menu-icon"></i>

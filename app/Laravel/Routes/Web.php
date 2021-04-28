@@ -16,6 +16,9 @@ Route::group(['as' => "web.",
 	Route::get('requirements',['as' => "get_requirements",'uses' => "MainController@get_requirements"]);
 	Route::get('contact-us',['as' => "contact",'uses' => "MainController@contact"]);
 	Route::any('logout',['as' => "logout",'uses' => "AuthController@destroy"]);
+	Route::get('company',['as' => "get_company",'uses' => "MainController@get_company"]);
+	Route::get('company-request',['as' => "company_request",'uses' => "MainController@company_request"]);
+	Route::post('company-request',['uses' => "MainController@company_add"]);
 
 	Route::group(['middleware' => ["web","portal.guest"]], function(){
 		Route::get('login/{redirect_uri?}',['as' => "login",'uses' => "AuthController@login"]);

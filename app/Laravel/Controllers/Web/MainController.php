@@ -6,9 +6,12 @@ namespace App\Laravel\Controllers\Web;
  * Request Validator
  */
 use App\Laravel\Requests\PageRequest;
+use App\Laravel\Requests\Web\CompanyRequest;
+
 use App\Laravel\Models\Application;
 use App\Laravel\Models\PermitType;
 use App\Laravel\Models\Transaction;
+use App\Laravel\Models\Company;
 use App\Laravel\Models\ApplicationRequirements;
 /*
  * Models
@@ -139,5 +142,53 @@ class MainController extends Controller{
 		return redirect()->route('web.main.index');
 
 	}
+
+	public function get_company(PageRequest $request)
+    {
+    	$search = $request->search;
+
+      if($search == ''){
+         $employees = Company::orderby('company_name','asc')->select('id','company_name')->where('status',"APPROVED")->limit(5)->get();
+      }else{
+         $employees = Company::orderby('company_name','asc')->select('id','company_name')->where('company_name', 'like', '%' .$search . '%')->where('status',"APPROVED")->limit(5)->get();
+      }
+
+      $response = array();
+      foreach($employees as $employee){
+         $response[] = array("value"=>$employee->id,"label"=>$employee->company_name);
+      }
+
+      return response()->json($response);
+    }
+
+    public function company_request(PageRequest $request){
+    	$this->data['page_title'] = "Company Request";
+
+    	$request->session()->forget('current_progress');
+		$request->session()->forget('registration');
+		return view('web.page.company-request',$this->data);
+    }
+
+    public function company_add (CompanyRequest $request){
+
+    	DB::beginTransaction();
+		try{
+			$new_request = new Company;
+			$new_request->company_name = $request->get('company_name');
+			$new_request->description = $request->get('description');
+			$new_request->save();
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg', "Your Request has been successfully submitted. Please wait for the approval.");
+			return redirect()->route('web.login');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return response()->json(['success'=>'errorList','message'=> $e->errors()]);
+
+		}
+
+    }
 
 }

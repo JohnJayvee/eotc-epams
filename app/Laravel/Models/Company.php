@@ -36,7 +36,7 @@ class Company extends Model{
      *
      * @var array
      */
-    protected $fillable = ['entity_code','comp_code','urn','company_name','type','type_code','zone_code','zone_locaion','cr_no','industry','city','province','region','region_code','obo_cluster','income_cluster'];
+    protected $fillable = ['entity_code','comp_code','urn','company_name','type','type_code','zone_code','zone_location','cr_no','industry','city','province','region','region_code','obo_cluster','income_cluster','status'];
 
 
     /**

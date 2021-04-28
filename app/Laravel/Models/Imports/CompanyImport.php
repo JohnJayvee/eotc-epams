@@ -33,7 +33,7 @@ class CompanyImport implements ToCollection
                 'type' => $row[4],
                 'type_code' => $row[5],
                 'zone_code' => $row[6],
-                'zone_locaion' => $row[7],
+                'zone_location' => $row[7],
                 'cr_no' => $row[8],
                 'industry' => $row[9],
                 'city' => $row[10],
@@ -42,6 +42,7 @@ class CompanyImport implements ToCollection
                 'region_code' => $row[13],
                 'obo_cluster' => $row[14],
                 'income_cluster' => $row[15],
+                'status' => "APPROVED",
                 ]);
                
                 $company->save();

@@ -229,7 +229,7 @@
                   <tr>
                       <td>{{$requirement->name}} {{$requirement->is_required == "yes" ? "(Required)" : "(Optional)"}}</td>
                       <td>
-                        <input type="file" name="file{{$requirement->id}}" accept="application/pdf,application/vnd.ms-excel">
+                        <input type="file" name="file{{$requirement->id}}" accept="application/pdf">
                         @if($errors->first('file'.$requirement->id))
                           <small class="form-text pl-1" style="color:red;">{{$errors->first('file'.$requirement->id)}}</small>
                         @endif
@@ -253,7 +253,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text text-title fw-600 px-4">&#8369; </span>
                     </div>
-                    <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('project_cost') ? 'is-invalid': NULL  }}" name="project_cost" value="{{old('project_cost')}}">
+                    <input type="number" class="form-control form-control-lg br-left-white {{ $errors->first('project_cost') ? 'is-invalid': NULL  }}" name="project_cost" value="{{old('project_cost')}}">
                   </div>
                   @if($errors->first('project_cost'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('project_cost')}}</small>

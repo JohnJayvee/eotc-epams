@@ -448,30 +448,6 @@
     <div class="row">
       <div class="col-md-2">
         <div class="form-group mt-2">
-          <input type="text" class="form-control {{ $errors->first('qty_bidette') ? 'is-invalid': NULL  }}" name="qty_bidette" value="{{old('qty_bidette')}}" placeholder="qty">
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group mt-2">
-           {!!Form::select('fixture_bidette',$fixtures,old('fixture_bidette'),['id' => "input_service_id",'class' => "form-control ".($errors->first('fixture_bidette') ? 'border-red' : NULL)])!!}
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group"> 
-          <div class="radio-item">
-            <input type="checkbox" id="chck_bidette" name="fixtures[]" value="bidette" @if(is_array(old('fixtures')) && in_array("bidette", old('fixtures'))) checked @endif>
-            <label for="chck_bidette">Bidette</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-2">
-        <div class="form-group mt-2">
           <input type="text" class="form-control {{ $errors->first('qty_dental_cuspidor') ? 'is-invalid': NULL  }}" name="qty_dental_cuspidor" value="{{old('qty_dental_cuspidor')}}" placeholder="qty">
         </div>
       </div>
@@ -490,6 +466,8 @@
       </div>
     </div>
   </div>
+</div>
+<div class="row">
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-2">
@@ -512,8 +490,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-2">
@@ -536,6 +512,8 @@
       </div>
     </div>
   </div>
+</div>
+<div class="row">
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-2">
@@ -558,10 +536,8 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <div class="row">
+   <div class="col-md-6">
+  <div class="row">
       <div class="col-md-2">
         <div class="form-group mt-2">
           <input type="text" class="form-control {{ $errors->first('qty_laboratory_sink') ? 'is-invalid': NULL  }}" name="qty_laboratory_sink" value="{{old('qty_laboratory_sink')}}" placeholder="qty">
@@ -580,8 +556,10 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-6">
     <div class="row">
       <div class="col-md-2">
@@ -604,8 +582,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-md-8">
     <div class="row">
       <div class="col-md-2">

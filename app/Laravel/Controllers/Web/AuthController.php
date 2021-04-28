@@ -16,6 +16,7 @@ use App\Laravel\Requests\Web\RegisterRequest;
  * Models
  */
 use App\Laravel\Models\Customer;
+use App\Laravel\Models\ZoneLocation;
 use App\Laravel\Models\CustomerFile;
 
 
@@ -31,6 +32,8 @@ class AuthController extends Controller{
 		parent::__construct();
 		$this->data['gender_type'] = ['' => "Choose Gender",'male' =>  "MALE",'female' => "FEMALE"];
 		$this->data['types'] = ['pcab' => "PCAB",'undertaking' =>  "UNDERTAKING"];
+		$this->data['zone_locations'] = ['' => "Choose Zone Location"] + ZoneLocation::pluck('ecozone', 'id')->toArray();
+		$this->data['enterprises'] = ['' => "Choose Enterprise Type",'agro-industrial' =>  "Agro-Industrial",'domestic_market' => "Domestic Market" , "export" => "Export" , "facilities" => "Facilities" , "free_trade" => "Free Trade" , "I.T" => "I.T" ,"i.t_facilities" => "I.T Facilities" , "logistics_service" => "Logistics Service" , "medical_tourism" => "Medical Tourism" , "regional_warehouse" => "Regional Warehouse" , "service" => "Service" ,"tourism" => "Tourism" , "utilities" => "Utilities"];
 	}
 
 	public function login(PageRequest $request, $redirect_uri = NULL){
@@ -75,6 +78,12 @@ class AuthController extends Controller{
 				return view('web.auth.account-details',$this->data);
 				break;
 			case '2':
+				return view('web.auth.account-information',$this->data);
+				break;
+			case '3':
+				return view('web.auth.company-information',$this->data);
+				break;
+			case '4':
 				return view('web.auth.account-id',$this->data);
 				break;
 			default:
@@ -103,55 +112,50 @@ class AuthController extends Controller{
 			case '1':
 				$request->session()->put('registration.email',$request->get('email'));
 				$request->session()->put('registration.password',$request->get('password'));
+				$request->session()->put('registration.username',$request->get('username'));
 				$request->session()->put('registration.account_type',$request->get('account_type'));
-
-				if ($request->get('account_type') == "contractor") {
-					$request->session()->put('registration.pcab_undertaking',$request->get('pcab_undertaking'));
-					$request->session()->put('registration.validity_period',$request->get('validity_period'));
-					$request->session()->put('registration.other_classification',$request->get('other_classification'));
-					$request->session()->put('registration.classification',$request->get('classification'));
-					$request->session()->put('registration.contractor_id',$request->get('contractor_id'));
-					$request->session()->put('registration.contractor_name',$request->get('contractor_name'));
-					$request->session()->put('registration.contractor_contact_number',$request->get('contractor_contact_number'));
-				}
 				
-				if ($request->get('account_type') == "company") {
-
-					$request->session()->put('registration.company_name',$request->get('company_name'));
-					$request->session()->put('registration.company_address',$request->get('company_address'));
-					$request->session()->put('registration.company_first_name',$request->get('company_first_name'));
-					$request->session()->put('registration.company_last_name',$request->get('company_last_name'));
-					$request->session()->put('registration.company_middle_name',$request->get('company_middle_name'));
-					$request->session()->put('registration.company_email',$request->get('company_email'));
-					$request->session()->put('registration.tel_number',$request->get('tel_number'));
-					$request->session()->put('registration.company_contact_number',$request->get('company_contact_number'));
-				}
-
 				session()->put('current_progress',$current_progress + 1) ;
 				break;
 			case '2':
+				$request->session()->put('registration.fname',$request->get('fname'));
+				$request->session()->put('registration.lname',$request->get('lname'));
+				$request->session()->put('registration.mname',$request->get('mname'));
+				$request->session()->put('registration.position',$request->get('position'));
+				$request->session()->put('registration.primary_phone',$request->get('primary_phone'));
+				$request->session()->put('registration.alternate_phone',$request->get('alternate_phone'));
+				$request->session()->put('registration.fax',$request->get('fax'));
+				
+				session()->put('current_progress',$current_progress + 1) ;
+
+				break;
+			case '3':
+				$request->session()->put('registration.company_name',$request->get('company_name'));
+				$request->session()->put('registration.zone_id',$request->get('zone_id'));
+				$request->session()->put('registration.enterprise_type',$request->get('enterprise_type'));
+				$request->session()->put('registration.cr_number',$request->get('cr_number'));
+				
+				session()->put('current_progress',$current_progress + 1) ;
+				break;
+			case '4':
 				$new_customer = new Customer;
 				$new_customer->email = $request->session()->get('registration.email');
+				$new_customer->username = $request->session()->get('registration.username');
 				$new_customer->password = bcrypt($request->session()->get('registration.password'));
 				$new_customer->type = $request->session()->get('registration.account_type');
 
+				$new_customer->fname = $request->session()->get('registration.fname');
+				$new_customer->lname = $request->session()->get('registration.lname');
+				$new_customer->mname = $request->session()->get('registration.mname');
+				$new_customer->position = $request->session()->get('registration.position');
+				$new_customer->primary_phone = $request->session()->get('registration.primary_phone');
+				$new_customer->alternate_phone = $request->session()->get('registration.alternate_phone');
+				$new_customer->fax = $request->session()->get('registration.fax');
+
 				$new_customer->company_name = $request->session()->get('registration.company_name');
-				$new_customer->company_address = $request->session()->get('registration.company_address');
-				$new_customer->company_first_name = $request->session()->get('registration.company_first_name');
-				$new_customer->company_last_name = $request->session()->get('registration.company_last_name');
-				$new_customer->company_middle_name = $request->session()->get('registration.company_middle_name');
-				$new_customer->company_email = $request->session()->get('registration.company_email');
-				$new_customer->tel_number = $request->session()->get('registration.tel_number');
-				$new_customer->company_contact_number = $request->session()->get('registration.company_contact_number');
-
-				$new_customer->pcab_undertaking = $request->session()->get('registration.pcab_undertaking');
-				$new_customer->validity_period = $request->session()->get('registration.validity_period');
-				$new_customer->contractor_id = $request->session()->get('registration.contractor_id');
-				$new_customer->other_classification = $request->session()->get('registration.other_classification');
-				$new_customer->classification = $request->session()->get('registration.classification');
-				$new_customer->contractor_name = $request->session()->get('registration.contractor_name');
-				$new_customer->contractor_contact_number = $request->session()->get('registration.contractor_contact_number');
-
+				$new_customer->zone_id = $request->session()->get('registration.zone_id');
+				$new_customer->enterprise_type = $request->session()->get('registration.enterprise_type');
+				$new_customer->cr_number = $request->session()->get('registration.cr_number');
 				$new_customer->save();
 
 				$customer_id = $new_customer->id;
@@ -192,11 +196,11 @@ class AuthController extends Controller{
 	                $new_file->application_id = $customer_id;
 	                $new_file->save();
 	            }
-	            if($request->hasFile('business_permit')) {
-	                $image = $request->file('business_permit');
+	            if($request->hasFile('endorsement')) {
+	                $image = $request->file('endorsement');
 	                $ext = $image->getClientOriginalExtension();
 	                $original_name = $image->getClientOriginalName();
-	                $file_type = 'business_permit';
+	                $file_type = 'endorsement';
 	                $filename = strtoupper(str_replace('-', ' ', Helper::resolve_file_name($file_type)). "_" . $new_customer->name) . "." . $ext;
 
 	                $upload_image = FileUploader::upload($image, 'uploads/'.$customer_id.'/file',$filename);
@@ -213,12 +217,10 @@ class AuthController extends Controller{
 	            
 	            $request->session()->forget('current_progress');
 				$request->session()->forget('registration');
-				$request->session()->forget('percent');
 
 				session()->flash('notification-status', "success");
 				session()->flash('notification-msg','Successfully registered.');
 				return redirect()->route('web.login');
-
 				break;
 			default:
 				break;

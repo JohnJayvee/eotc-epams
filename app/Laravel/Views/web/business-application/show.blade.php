@@ -10,7 +10,7 @@
   <div class="container">
     <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> Business Application Details</span></h5>
-            <a href="{{route('web.application.history',[$business_transaction->id])}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
+            <a href="{{route('web.application.history',[$business_transaction->business_id])}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
          </div>
           
     <div class="card card-rounded shadow-sm">

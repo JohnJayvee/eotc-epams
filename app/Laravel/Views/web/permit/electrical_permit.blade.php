@@ -58,7 +58,7 @@
     <div class="form-group"> 
       <div class="radio-item">
         <input type="checkbox" id="chck_others" name="scope_of_work[]" value="others" @if(is_array(old('scope_of_work')) && in_array("others", old('scope_of_work'))) checked @endif>
-        <label for="chck_others">Others(specify) <input type="text" name="others" class="check-input"></label>
+        <label for="chck_others">Others(specify) <input type="text" name="others" class="check-input" value="{{old('others')}}"></label>
       </div>
     </div>
   </div>
@@ -83,7 +83,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text text-title fw-600 px-4">KVA</span>
         </div>
-        <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('connected_load') ? 'is-invalid': NULL  }}" name="connected_load" value="{{old('connected_load')}}">
+        <input type="number" class="form-control form-control-lg br-left-white {{ $errors->first('connected_load') ? 'is-invalid': NULL  }}" name="connected_load" value="{{old('connected_load')}}">
       </div>
       @if($errors->first('connected_load'))
         <small class="form-text pl-1" style="color:red;">{{$errors->first('connected_load')}}</small>
@@ -97,7 +97,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text text-title fw-600 px-4">KVA</span>
         </div>
-        <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('transformer_capacity') ? 'is-invalid': NULL  }}" name="transformer_capacity" value="{{old('transformer_capacity')}}">
+        <input type="number" class="form-control form-control-lg br-left-white {{ $errors->first('transformer_capacity') ? 'is-invalid': NULL  }}" name="transformer_capacity" value="{{old('transformer_capacity')}}">
       </div>
       @if($errors->first('transformer_capacity'))
         <small class="form-text pl-1" style="color:red;">{{$errors->first('transformer_capacity')}}</small>
@@ -113,7 +113,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text text-title fw-600 px-4">KVA</span>
         </div>
-        <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('ups_capacity') ? 'is-invalid': NULL  }}" name="ups_capacity" value="{{old('ups_capacity')}}">
+        <input type="number" class="form-control form-control-lg br-left-white {{ $errors->first('ups_capacity') ? 'is-invalid': NULL  }}" name="ups_capacity" value="{{old('ups_capacity')}}">
       </div>
       @if($errors->first('ups_capacity'))
         <small class="form-text pl-1" style="color:red;">{{$errors->first('ups_capacity')}}</small>

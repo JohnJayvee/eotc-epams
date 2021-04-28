@@ -22,7 +22,7 @@ class CreateCompanyTable extends Migration
             $table->string('type')->nullable();
             $table->string('type_code')->nullable();
             $table->string('zone_code')->nullable();
-            $table->string('zone_locaion')->nullable();
+            $table->string('zone_location')->nullable();
             $table->string('cr_no')->nullable();
             $table->string('industry')->nullable();
             $table->string('city')->nullable();
@@ -31,6 +31,10 @@ class CreateCompanyTable extends Migration
             $table->string('region_code')->nullable();
             $table->string('obo_cluster')->nullable();
             $table->string('income_cluster')->nullable();
+            $table->string('description')->nullable();
+            $table->string('status')->default("PENDING")->nullable();
+            $table->datetime('approved_at')->nullable();
+            $table->string('approved_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

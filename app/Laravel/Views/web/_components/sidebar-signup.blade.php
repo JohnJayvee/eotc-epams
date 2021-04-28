@@ -6,30 +6,47 @@
         <a href="{{ route('web.login') }}"
           class="tw-flex tw-items-center tw-justify-start tw-text-white hover:tw-text-white tw-space-x-6">
           <i class="fas fa-chevron-left tw-w-4 tw-text-3xl"></i>
-          <div class="tw-flex-shrink-1 tw-font-bold tw-text-2xl">Back to<br>Sign
-            In</div>
+          <div class="tw-flex-shrink-1 tw-font-bold tw-text-2xl">Back to<br>Sign In</div>
         </a>
         <img src="/web/img/signup-logo.svg" class="tw-mx-auto tw-mt-40" />
         <div class="tw-mx-auto tw-mt-12">
-          <div class="tw-flex tw-items-center tw-justify-center tw-space-x-4">
-            <span class="tw-text-base">1</span>
+          <div class="tw-flex tw-items-center tw-justify-center tw-space-x-4 {{ Session::get('current_progress') >= 1 ? "tw-opacity-100" : "tw-opacity-30" }}">
+            <span class="tw-text-base"> 
+              @if (Session::get('current_progress') > 1)
+                <i class="fa fa-check"></i>
+              @else
+                1
+              @endif
+            </span>
             <span class="tw-text-2xl">Account Information</span>
           </div>
           <div class="tw-text-2xl text-center tw-opacity-30">|</div>
           <div
-            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 tw-opacity-30">
-            <span class="tw-text-base">2</span>
+            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 {{ Session::get('current_progress') >= 2 ? "tw-opacity-100" : "tw-opacity-30" }}">
+            <span class="tw-text-base">
+              @if (Session::get('current_progress') > 2)
+                <i class="fa fa-check"></i>
+              @else
+                2
+              @endif
+            </span>
             <span class="tw-text-2xl">Contact Information</span>
           </div>
           <div class="tw-text-2xl text-center tw-opacity-30">|</div>
           <div
-            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 tw-opacity-30">
-            <span class="tw-text-base">3</span>
+            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 {{ Session::get('current_progress') >= 3 ? "tw-opacity-100" : "tw-opacity-30" }}">
+             <span class="tw-text-base">
+              @if (Session::get('current_progress') > 3)
+                <i class="fa fa-check"></i>
+              @else
+                3
+              @endif
+            </span>
             <span class="tw-text-2xl">Company Profile</span>
           </div>
           <div class="tw-text-2xl text-center tw-opacity-30">|</div>
           <div
-            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 tw-opacity-30">
+            class="tw-flex tw-items-center tw-justify-center tw-space-x-4 {{ Session::get('current_progress') >= 4 ? "tw-opacity-100" : "tw-opacity-30" }}">
             <span class="tw-text-base">4</span>
             <span class="tw-text-2xl">Verification</span>
           </div>

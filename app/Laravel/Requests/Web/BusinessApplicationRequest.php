@@ -75,7 +75,7 @@ class BusinessApplicationRequest extends RequestManager{
 				
 				$required = ApplicationRequirements::whereIn('id',explode(",", $this->get('requirements_id')))->where('is_required',"yes")->get();
 				foreach ($required as $key => $value) {
-					$rules['file'.$value->id] = "required|mimes:pdf,docx,doc|max:5000";
+					$rules['file'.$value->id] = "required|mimes:pdf|max:5000";
 				}
 
 				break;
@@ -90,7 +90,7 @@ class BusinessApplicationRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
-
+			'mimes' => 'Only PDF File are allowed.',
 		];
 
 	}

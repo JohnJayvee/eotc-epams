@@ -73,6 +73,9 @@ Route::group(['as' => "auth."], function(){
 			Route::any('delete/{id?}',['as' => "destroy",'uses' => "CompanyController@destroy",'middleware' => "system.exist:company"]);
 			Route::get('upload',['as' => "upload",'uses' => "CompanyController@upload"]);
 			Route::post('upload',['uses' => "CompanyController@upload_company"]);
+			Route::get('pending',['as' => "pending",'uses' => "CompanyController@pending"]);
+			Route::get('process/{id?}',['as' => "process",'uses' => "CompanyController@process",'middleware' => "system.exist:company"]);
+			Route::post('process/{id?}',['uses' => "CompanyController@approved",'middleware' => "system.exist:company"]);
 		});
 
 		Route::group(['as' => "account_code.",'prefix' => "account-code"], function(){

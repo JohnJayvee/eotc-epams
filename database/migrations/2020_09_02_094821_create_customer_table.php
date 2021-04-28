@@ -17,25 +17,25 @@ class CreateCustomerTable extends Migration
             $table->bigIncrements('id');
             
             $table->string('email')->nullable();
+            $table->string('username')->nullable();
             $table->string('password')->nullable();
             $table->string('type')->nullable();
 
+            $table->string('fname')->nullable();
+            $table->string('lname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('position')->nullable();
+            $table->string('primary_phone')->nullable();
+            $table->string('alternate_phone')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('company_id')->nullable();
             $table->string('company_name')->nullable();
-            $table->string('company_address')->nullable();
-            $table->string('company_first_name')->nullable();
-            $table->string('company_last_name')->nullable();
-            $table->string('company_middle_name')->nullable();
-            $table->string('company_email')->nullable();
-            $table->string('tel_number')->nullable();
-            $table->string('company_contact_number')->nullable();
-
-            $table->string('pcab_undertaking')->nullable();
-            $table->string('validity_period')->nullable();
-            $table->string('contractor_id')->nullable();
-            $table->string('other_classification')->nullable();
-            $table->string('classification')->nullable();
-            $table->string('contractor_name')->nullable();
-            $table->string('contractor_contact_number')->nullable();
+            $table->string('zone_id')->nullable();
+            $table->string('enterprise_type')->nullable();
+            $table->string('cr_number')->nullable();
+            
+            $table->string('status')->default('active')->nullable();
+            $table->string('company_request')->default('pending')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

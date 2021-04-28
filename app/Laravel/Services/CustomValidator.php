@@ -6,10 +6,10 @@ use Illuminate\Validation\Validator;
 // use App\Laravel\Models\{IPAddress,Employee,AttendanceOvertime,EmployeeLeaveCredit,AttendanceLeave};
 use App\Laravel\Models\{User,Citizen,Barangay};
 use App\Laravel\Models\{AccountCode};
-use App\Laravel\Models\{Application,ApplicationRequirements};
+use App\Laravel\Models\{Application,ApplicationRequirements,Company};
 
 
-use Auth, Hash,Str,Carbon,Helper,Request;
+use Auth, Hash,Str,Carbon,Helper,Request,DB;
 
 class CustomValidator extends Validator {
 
@@ -27,6 +27,24 @@ class CustomValidator extends Validator {
         return TRUE;
             
     }
+    public function validateExistingCompany($attribute, $value, $parameters){
+
+        $value = $this->getValue($attribute);
+     
+
+        if(is_array($parameters) AND isset($parameters[0])){ $company_name = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $company_id = Request::get($parameters[1]); }
+
+        $is_exist = Company::where('company_name',$company_name)->where('id',$company_id)->first();
+
+        if ($is_exist) {
+            return TRUE;
+        }
+
+            return FALSE;
+       
+    }
+
     public function validateMinimumAmount($attribute, $rule, $parameters){
 
         $value = $this->getValue($attribute);
