@@ -138,7 +138,7 @@ class BusinessTransactionController extends Controller
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg', "Business Application has been successfully validated.");
-			return redirect()->route('system.business_transaction.show',[$id]);
+			return redirect()->route('system.business_transaction.show',[$business_file->application->business_id]);
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
@@ -229,12 +229,12 @@ class BusinessTransactionController extends Controller
 						if($ext == 'pdf' || $ext == 'docx' || $ext == 'doc'){ 
 							$type = 'file';
 							$original_filename = $request->file('document.'.$key)->getClientOriginalName();
-							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/documents/{$business_transaction->id}");
+							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/assessments/{$business_transaction->id}");
 						}
 						if($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){ 
 							$type = 'image';
-							$original_filename = $request->file('file')->getClientOriginalName();
-							$upload_image = ImageUploader::upload($image, 'uploads/transaction/assessment/{$id}');
+							$original_filename = $request->file('document.'.$key)->getClientOriginalName();
+							$upload_image = FileUploader::upload($request->file('document.'.$key), "uploads/documents/transaction/assessments/{$business_transaction->id}");
 						}
 						$new_file = new Assessment;
 						$new_file->application_id = $business_transaction->id;

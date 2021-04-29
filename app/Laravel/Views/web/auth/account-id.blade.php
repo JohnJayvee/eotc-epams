@@ -92,25 +92,14 @@
     .custom-file-input{
         cursor: pointer;
     }
-    .frm_form_field .grecaptcha-badge { 
-          display:none;
-        }
 </style>
 @endpush
 @push('page-scripts')
-<script src="https://www.google.com/recaptcha/api.js?render={{ env('CAPTCHA_SITE_KEY') }}"></script>
-<script type="text/javascript">
-    $(document).on('change', '.custom-file-input', function (event) {
-        $(this).next('.custom-file-label').html(event.target.files[0].name);
-    })
-     function onClick(e) {
-        e.preventDefault();
-        grecaptcha.ready(function() {
-          grecaptcha.execute('{{ env('CAPTCHA_SITE_KEY') }}', {action: 'submit'}).then(function(token) {
-              // Add your logic to submit to your backend server here.
-          });
-        });
-      }
-</script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
+<script type="text/javascript">
+   $(document).on('change', '.custom-file-input', function (event) {
+    $(this).next('.custom-file-label').html(event.target.files[0].name);
+  })
+</script>
 @endpush

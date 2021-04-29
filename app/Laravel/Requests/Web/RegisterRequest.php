@@ -46,6 +46,7 @@ class RegisterRequest extends RequestManager{
 					'gov_id_1' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
 		            'gov_id_2' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
 		            'endorsement' => 'required|mimes:jpeg,jpg,png,JPEG,PNG,pdf,docx,doc|max:5000',
+		            'g-recaptcha-response' => 'required'
 				];
 				break;
 			default:

@@ -67,4 +67,8 @@ class BusinessApplicationFile extends Model{
         return $this->BelongsTo("App\Laravel\Models\ApplicationRequirements",'requirement_id','id');
     }
 
+    public function application(){
+        return $this->BelongsTo("App\Laravel\Models\BusinessApplication",'application_id','id');
+    }
+
 }
