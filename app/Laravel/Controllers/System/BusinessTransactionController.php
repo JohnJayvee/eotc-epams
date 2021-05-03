@@ -197,8 +197,6 @@ class BusinessTransactionController extends Controller
 
 	public function upload_documents(FileRequest $request , $id = NULL){
 
-		
-
 		DB::beginTransaction();
 		try{
 			$business_transaction = BusinessApplication::find($id);

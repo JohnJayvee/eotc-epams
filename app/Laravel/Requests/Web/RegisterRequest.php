@@ -26,7 +26,6 @@ class RegisterRequest extends RequestManager{
 				$rules = [
 					'fname'		=> "required",
 					'lname'		=> "required",
-					'mname'		=> "required",
 					'position'		=> "required",
 					'primary_phone'		=> "required",
 					'alternate_phone'		=> "required",
