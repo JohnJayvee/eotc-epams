@@ -44,7 +44,7 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12 ">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Username</label>
+                      <label class="text-form pb-2 fw-600">Username <span style="color: red">*</span></label>
                       <input type="username"
                         class="form-control form-control-lg {{ $errors->first('username') ? 'is-invalid' : null }}"
                         name="username" placeholder="username"
@@ -59,7 +59,7 @@
                 <div class="row">
                   <div class="col-md-6 col-lg-6">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Password</label>
+                      <label class="text-form pb-2 fw-600">Password <span style="color: red">*</span></label>
                       <input type="password" class="form-control form-control-lg"
                         name="password" placeholder="*************"
                         id="password-field">
@@ -73,8 +73,7 @@
                   </div>
                   <div class="col-md-6 col-lg-6">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Confirm
-                        Password</label>
+                      <label class="text-form pb-2 fw-600">Confirm Password <span style="color: red">*</span></label>
                       <input type="password" class="form-control form-control-lg"
                         id="password_confirmation" name="password_confirmation"
                         placeholder="*************">
@@ -86,7 +85,7 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12 ">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Email</label>
+                      <label class="text-form pb-2 fw-600">Email <span style="color: red">*</span></label>
                       <input type="email"
                         class="form-control form-control-lg {{ $errors->first('email') ? 'is-invalid' : null }}"
                         name="email" placeholder="username@email.com"

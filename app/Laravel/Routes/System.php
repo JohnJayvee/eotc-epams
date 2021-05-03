@@ -158,7 +158,7 @@ Route::group(['as' => "auth."], function(){
 			Route::get('show/{id?}',['as' => "show",'uses' => "BusinessTransactionController@show"]);
 			Route::get('frontliner-validate/{id?}',['as' => "frontliner_validate",'uses' => "BusinessTransactionController@frontliner_validate"]);
 			Route::get('process-file/{id?}',['as' => "process_file",'uses' => "BusinessTransactionController@process_file"]);
-			Route::get('declined/{id?}',['as' => "declined",'uses' => "BusinessTransactionController@declined"]);
+			Route::get('process/{id?}',['as' => "process",'uses' => "BusinessTransactionController@process"]);
 			Route::get('upload/{id?}',['as' => "upload",'uses' => "BusinessTransactionController@upload"]);
 			Route::post('upload/{id?}',['uses' => "BusinessTransactionController@upload_documents"]);
 		});

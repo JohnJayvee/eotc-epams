@@ -32,8 +32,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , {{ Auth::guard('customer')->user()->type == "company" ? Auth::guard('customer')->user()->company_first_name : Auth::guard('customer')->user()->contractor_name }}
-                            <i class="fas fa-caret-down ml-2"></i>
+                        <a href="#" class=""><img src="{{asset('placeholder/user.png')}}" alt="logo" class="img-fluid profile-image"/> Welcome , 
+                            {{ Str::title(Auth::guard('customer')->user()->fname) }}<i class="fas fa-caret-down ml-2"></i>
                         </a>
                         <ul class="sub-menu">
                             <li><a href="{{route('web.profile.index')}}">Edit Profile</a></li>

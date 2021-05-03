@@ -28,11 +28,11 @@
                   </div>
                 </div> --}}
                 
-                <input type="hidden" id='company_id' readonly name="company_id" value="{{old('company_id')}}">
+                <input type="text" id='company_id' readonly name="company_id" value="{{old('company_id',Session::get('registration.company_id'))}}">
                 <div class="row">
                   <div class="col-md-12 col-lg-12">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Company Name</label>
+                      <label class="text-form pb-2 fw-600">Company Name <span style="color: red">*</span></label>
                       <input type="text" id='company_search' class="form-control form-control-lg {{ $errors->first('company_name') ? 'is-invalid': NULL  }}" placeholder="Company Name" value="{{old('company_name',Session::get('registration.company_name'))}}" name="company_name">
                       @if($errors->first('company_name'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('company_name')}}</small>
@@ -48,8 +48,8 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Zone Location</label>
-                      {!!Form::select("zone_id", $zone_locations, old('zone_id',Session::get('business.zone_id')), ['id' => "input_zone_id", 'class' => "classic form-control form-control-lg"])!!}
+                      <label class="text-form pb-2 fw-600">Zone Location <span style="color: red">*</span></label>
+                      {!!Form::select("zone_id", $zone_locations, old('zone_id',Session::get('registration.zone_id')), ['id' => "input_zone_id", 'class' => "classic form-control form-control-lg"])!!}
                       @if($errors->first('zone_id'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('zone_id')}}</small>
                       @endif
@@ -59,8 +59,8 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Enterprise Type</label>
-                      {!!Form::select("enterprise_type", $enterprises, old('enterprise_type',Session::get('business.enterprise_type')), ['id' => "input_enterprise_type", 'class' => "classic form-control form-control-lg"])!!}
+                      <label class="text-form pb-2 fw-600">Enterprise Type <span style="color: red">*</span></label>
+                      {!!Form::select("enterprise_type", $enterprises, old('enterprise_type',Session::get('registration.enterprise_type')), ['id' => "input_enterprise_type", 'class' => "classic form-control form-control-lg"])!!}
                       @if($errors->first('enterprise_type'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('enterprise_type')}}</small>
                       @endif
@@ -70,7 +70,7 @@
                 <div class="row">
                   <div class="col-md-12 col-lg-12">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Certification Registration (CR) Number</label>
+                      <label class="text-form pb-2 fw-600">Certification Registration (CR) Number <span style="color: red">*</span></label>
                       <input type="text" class="form-control {{ $errors->first('cr_number') ? 'is-invalid': NULL  }} form-control-lg" name="cr_number" placeholder="xxxxxxxxxxxxxx" value="{{old('cr_number',Session::get('registration.cr_number'))}}">
                       @if($errors->first('cr_number'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('cr_number')}}</small>

@@ -51,7 +51,7 @@ class AuthController extends Controller{
 			$email = $request->get('email');
 			$password = $request->get('password');
 
-			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password])){
+			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password]) || Auth::guard('customer')->attempt(['username' => $email,'password' => $password])){
 
 				$user = Auth::guard('customer')->user();
 				session()->put('auth_id', Auth::guard('customer')->user()->id);
@@ -131,6 +131,7 @@ class AuthController extends Controller{
 				break;
 			case '3':
 				$request->session()->put('registration.company_name',$request->get('company_name'));
+				$request->session()->put('registration.company_id',$request->get('company_id'));
 				$request->session()->put('registration.zone_id',$request->get('zone_id'));
 				$request->session()->put('registration.enterprise_type',$request->get('enterprise_type'));
 				$request->session()->put('registration.cr_number',$request->get('cr_number'));

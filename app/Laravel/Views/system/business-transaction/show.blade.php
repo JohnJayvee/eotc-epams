@@ -265,7 +265,7 @@
       @if($business_transaction->is_validated == "yes" and $business_transaction->status == "PENDING")
         <a data-url="{{route('system.business_transaction.upload',[$business_transaction->id])}}"  class="btn btn-primary mt-4 btn-approved border-5 text-white" ><i class="fa fa-check-circle"></i> Approved Transactions</a>
       @endif
-      <a  data-url="{{route('system.business_transaction.declined',[$business_transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white"><i class="fa fa-times-circle"></i> Decline Transactions</a>
+      <a  data-url="{{route('system.business_transaction.process',[$business_transaction->id])}}" class="btn btn-danger mt-4 btn-decline border-5 text-white"><i class="fa fa-times-circle"></i> Decline Transactionss</a>
     @endif
     
   </div>

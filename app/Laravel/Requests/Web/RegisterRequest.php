@@ -18,7 +18,7 @@ class RegisterRequest extends RequestManager{
 					'email'		=> "required|email|unique:customer,email",
 					'password'		=> "required|password_format|confirmed",
 					'account_type'		=> "required",
-					'username'		=> "required",
+					'username'		=> "required|unique:customer,username",
 				];
 				
 				break;
@@ -26,10 +26,7 @@ class RegisterRequest extends RequestManager{
 				$rules = [
 					'fname'		=> "required",
 					'lname'		=> "required",
-					'position'		=> "required",
 					'primary_phone'		=> "required",
-					'alternate_phone'		=> "required",
-					'fax'		=> "required",
 				];
 				break;
 			case 3:

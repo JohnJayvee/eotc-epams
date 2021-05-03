@@ -17,7 +17,8 @@
                 <!-- progressbar -->
                 <div class="row">
                     <div class="col-md-12 mb-4">
-                        <div class="custom-file" id="customFile" style="margin-bottom: 2em">
+                        <label class="text-form pb-2 fw-600">Letter of Endorsement or Nomination <span style="color: red;font-style: italic;">* (max 5mb)</span></label>
+                        <div class="custom-file" id="customFile" style="margin-bottom: 1em">
                             <input type="file" class="custom-file-input" name="endorsement">
                             <label class="custom-file-label">Select file...</label>
                         </div>
@@ -28,7 +29,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 mb-4">
-                        <div class="custom-file" id="customFile" style="margin-bottom: 2em">
+                        <label class="text-form pb-2 fw-600">Government ID 1 <span style="color: red;font-style: italic;">* (max 5mb)</span></label>
+                        <div class="custom-file" id="customFile" style="margin-bottom: 1em">
                             <input type="file" class="custom-file-input" name="gov_id_1">
                             <label class="custom-file-label" >Select file...</label>
                         </div>
@@ -39,7 +41,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 mb-4">
-                        <div class="custom-file" id="customFile" style="margin-bottom: 2em">
+                        <label class="text-form pb-2 fw-600">Government ID 2 <span style="color: red;font-style: italic;">* (max 5mb)</span></label>
+                        <div class="custom-file" id="customFile" style="margin-bottom: 1em">
                             <input type="file" class="custom-file-input" name="gov_id_2">
                             <label class="custom-file-label">Select file...</label>
                         </div>

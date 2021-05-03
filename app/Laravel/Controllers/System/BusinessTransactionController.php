@@ -137,8 +137,8 @@ class BusinessTransactionController extends Controller
 
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg', "Business Application has been successfully validated.");
-			return redirect()->route('system.business_transaction.show',[$business_file->application->business_id]);
+			session()->flash('notification-msg', "Attached requirements has been updated.");
+			return redirect()->route('system.business_transaction.show',[$business_file->application_id]);
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
@@ -147,10 +147,9 @@ class BusinessTransactionController extends Controller
 		}
 	}
 	
-	public function decline(PageRequest $request , $id = NULL){
+	public function process(PageRequest $request , $id = NULL){
 		DB::beginTransaction();
 		try{
-
 			$business_transaction = BusinessApplication::find($id);
 			$business_transaction->status = "DECLINED";
 			$business_transaction->remarks = $request->get('remarks');

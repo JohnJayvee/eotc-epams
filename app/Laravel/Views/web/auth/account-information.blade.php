@@ -19,7 +19,7 @@
                 <div class="row">
                   <div class="col-md-6 col-lg-6">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">First Name</label>
+                      <label class="text-form pb-2 fw-600">First Name <span style="color: red">*</span></label>
                       <input type="text" class="form-control {{ $errors->first('fname') ? 'is-invalid': NULL  }} form-control-lg" name="fname" placeholder="Firstname" value="{{old('fname',Session::get('registration.fname'))}}">
                       @if($errors->first('fname'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('fname')}}</small>
@@ -28,7 +28,7 @@
                   </div>
                   <div class="col-md-6 col-lg-6">
                     <div class="form-group mb-0">
-                      <label class="text-form pb-2 fw-600 fw-600">Last Name</label>
+                      <label class="text-form pb-2 fw-600 fw-600">Last Name <span style="color: red">*</span></label>
                       <input type="text" class="form-control {{ $errors->first('lname') ? 'is-invalid': NULL  }} form-control-lg" name="lname" placeholder="Lastname" value="{{old('lname',Session::get('registration.lname'))}}">
                       @if($errors->first('lname'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('lname')}}</small>
@@ -56,7 +56,7 @@
                 <div class="row">
                   <div class="col-md-6 col-lg-6">
                     <div class="form-group">
-                      <label class="text-form pb-2 fw-600">Primary Phone</label>
+                      <label class="text-form pb-2 fw-600">Primary Phone <span style="color: red">*</span></label>
                       <input type="text" class="form-control form-control-lg {{ $errors->first('primary_phone') ? 'is-invalid': NULL  }}" name="primary_phone" placeholder="Middlename" value="{{old('primary_phone',Session::get('registration.primary_phone'))}}">
                       @if($errors->first('primary_phone'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('primary_phone')}}</small>
