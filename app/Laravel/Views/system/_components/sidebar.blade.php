@@ -177,6 +177,12 @@
             <span class="menu-title">Accounts</span>
           </a>
         </li>
+        <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.customer.index')) ? 'active' : ''}}">
+          <a class="nav-link" href="{{route('system.customer.index')}}">
+            <i class="fa fa-user-plus menu-icon"></i>
+            <span class="menu-title">Customer Accounts</span>
+          </a>
+        </li>
       @endif
     @endif
   @endif

@@ -15,7 +15,7 @@ class CrreateCustomerFileTable extends Migration
     {   
         Schema::create('customer_file', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('application_id')->nullable();
+            $table->string('customer_id')->nullable();
             $table->string('type')->nullable();
             $table->text('path')->nullable();
             $table->text('directory')->nullable();

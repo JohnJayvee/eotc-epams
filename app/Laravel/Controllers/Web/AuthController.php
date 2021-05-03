@@ -54,6 +54,14 @@ class AuthController extends Controller{
 			if(Auth::guard('customer')->attempt(['email' => $email,'password' => $password]) || Auth::guard('customer')->attempt(['username' => $email,'password' => $password])){
 
 				$user = Auth::guard('customer')->user();
+
+				if(Str::lower($user->status) != "active"){
+					Auth::logout();
+					session()->flash('notification-status','info');
+					session()->flash('notification-msg','Account is not Activated yet.');
+					return redirect()->route('web.login');
+				}
+
 				session()->put('auth_id', Auth::guard('customer')->user()->id);
 				session()->flash('notification-status','success');
 				session()->flash('notification-msg',"Welcome to EOTC Portal, {$user->full_name}!");
@@ -153,6 +161,7 @@ class AuthController extends Controller{
 				$new_customer->alternate_phone = $request->session()->get('registration.alternate_phone');
 				$new_customer->fax = $request->session()->get('registration.fax');
 
+				$new_customer->company_id = $request->session()->get('registration.company_id');
 				$new_customer->company_name = $request->session()->get('registration.company_name');
 				$new_customer->zone_id = $request->session()->get('registration.zone_id');
 				$new_customer->enterprise_type = $request->session()->get('registration.enterprise_type');
@@ -166,17 +175,15 @@ class AuthController extends Controller{
 	                $ext = $image->getClientOriginalExtension();
 	                $original_name = $image->getClientOriginalName();
 	                $file_type = 'gov_id_1';
-	                $filename = strtoupper(str_replace('-', ' ', Helper::resolve_file_name($file_type)). "_" . $new_customer->name) . "." . $ext;
-
-	                $upload_image = FileUploader::upload($image, 'uploads/'.$customer_id.'/file',$filename);
+	                $upload_image = FileUploader::upload($image, 'uploads/customer/file/{$customer_id}');
 
 	                $new_file = new CustomerFile;
 	                $new_file->path = $upload_image['path'];
 	                $new_file->directory = $upload_image['directory'];
-	                $new_file->filename = $filename;
+	                $new_file->filename = $upload_image['filename'];
 	                $new_file->type = $file_type;
 	                $new_file->original_name = $original_name;
-	                $new_file->application_id = $customer_id;
+	                $new_file->customer_id = $customer_id;
 	                $new_file->save();
 	            }
 	            if($request->hasFile('gov_id_2')) {
@@ -184,17 +191,15 @@ class AuthController extends Controller{
 	                $ext = $image->getClientOriginalExtension();
 	                $original_name = $image->getClientOriginalName();
 	                $file_type = 'gov_id_2';
-	                $filename = strtoupper(str_replace('-', ' ', Helper::resolve_file_name($file_type)). "_" . $new_customer->name) . "." . $ext;
-
-	                $upload_image = FileUploader::upload($image, 'uploads/'.$customer_id.'/file',$filename);
+	                $upload_image = FileUploader::upload($image, 'uploads/customer/file/{$customer_id}');
 
 	                $new_file = new CustomerFile;
 	                $new_file->path = $upload_image['path'];
 	                $new_file->directory = $upload_image['directory'];
-	                $new_file->filename = $filename;
+	                $new_file->filename = $upload_image['filename'];
 	                $new_file->type = $file_type;
 	                $new_file->original_name = $original_name;
-	                $new_file->application_id = $customer_id;
+	                $new_file->customer_id = $customer_id;
 	                $new_file->save();
 	            }
 	            if($request->hasFile('endorsement')) {
@@ -202,17 +207,15 @@ class AuthController extends Controller{
 	                $ext = $image->getClientOriginalExtension();
 	                $original_name = $image->getClientOriginalName();
 	                $file_type = 'endorsement';
-	                $filename = strtoupper(str_replace('-', ' ', Helper::resolve_file_name($file_type)). "_" . $new_customer->name) . "." . $ext;
-
-	                $upload_image = FileUploader::upload($image, 'uploads/'.$customer_id.'/file',$filename);
+	                $upload_image = FileUploader::upload($image, 'uploads/customer/file/{$customer_id}');
 
 	                $new_file = new CustomerFile;
 	                $new_file->path = $upload_image['path'];
 	                $new_file->directory = $upload_image['directory'];
-	                $new_file->filename = $filename;
+	                $new_file->filename = $upload_image['filename'];
 	                $new_file->type = $file_type;
 	                $new_file->original_name = $original_name;
-	                $new_file->application_id = $customer_id;
+	                $new_file->customer_id = $customer_id;
 	                $new_file->save();
 	            }
 	            

@@ -51,4 +51,8 @@ class Customer extends Authenticatable{
         return Str::title("{$this->fname} {$this->lname} ");
     }
 
+    public function zone_location(){
+        return $this->BelongsTo("App\Laravel\Models\ZoneLocation",'zone_id','id');
+    }
+
 }

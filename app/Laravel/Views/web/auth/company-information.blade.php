@@ -28,7 +28,7 @@
                   </div>
                 </div> --}}
                 
-                <input type="text" id='company_id' readonly name="company_id" value="{{old('company_id',Session::get('registration.company_id'))}}">
+                <input type="hidden" id='company_id' readonly name="company_id" value="{{old('company_id',Session::get('registration.company_id'))}}">
                 <div class="row">
                   <div class="col-md-12 col-lg-12">
                     <div class="form-group">

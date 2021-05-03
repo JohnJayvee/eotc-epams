@@ -444,7 +444,7 @@ class Helper{
             case "gov_id_1": return 'Government ID 1' ;  break;
             case "gov_id_2": return 'Government ID 2' ;  break;
             case "business_permit": return 'Business Permit' ;  break;
-
+            case "endorsement": return 'ENDORSEMENT' ;  break;
             case "bn_certificate": return 'BN Certificate' ;  break;
             case "brgy_clearance": return 'Barangay Clearance' ;  break;
             case "occupancy_permit": return 'Occupancy Permit' ;  break;

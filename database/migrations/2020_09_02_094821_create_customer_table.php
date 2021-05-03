@@ -34,7 +34,7 @@ class CreateCustomerTable extends Migration
             $table->string('enterprise_type')->nullable();
             $table->string('cr_number')->nullable();
             
-            $table->string('status')->default('active')->nullable();
+            $table->string('status')->default('inactive')->nullable();
             $table->string('company_request')->default('pending')->nullable();
 
             $table->timestamps();

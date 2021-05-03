@@ -162,6 +162,12 @@ Route::group(['as' => "auth."], function(){
 			Route::get('upload/{id?}',['as' => "upload",'uses' => "BusinessTransactionController@upload"]);
 			Route::post('upload/{id?}',['uses' => "BusinessTransactionController@upload_documents"]);
 		});
+
+		Route::group(['as' => "customer.",'prefix' => "customer"], function(){
+			Route::get('/',['as' => "index",'uses' => "CustomerController@index"]);
+			Route::get('show/{id?}',['as' => "show",'uses' => "CustomerController@show"]);
+			Route::post('show/{id?}',['uses' => "CustomerController@process"]);
+		});
 		
 	});
 
