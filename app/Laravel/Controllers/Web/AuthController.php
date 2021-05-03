@@ -79,7 +79,6 @@ class AuthController extends Controller{
 
 	public function register(PageRequest $request){
 		$this->data['page_title'] = " :: Create Account";
-
 		$current_progress = $request->session()->get('current_progress');
 		switch ($current_progress) {
 			case '1':

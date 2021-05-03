@@ -17,7 +17,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">First Name</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('first_name') ? 'is-invalid': NULL  }}" name="first_name" placeholder="First Name" value="{{old('first_name',Session::get('business.first_name'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('first_name') ? 'is-invalid': NULL  }}" name="first_name" placeholder="First Name" value="{{old('first_name',Str::title($auth->fname))}}" readonly>
                   @if($errors->first('first_name'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('first_name')}}</small>
                   @endif
@@ -26,7 +26,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">Last Name</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('last_name') ? 'is-invalid': NULL  }}" name="last_name" placeholder="Last Name" value="{{old('last_name',Session::get('business.last_name'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('last_name') ? 'is-invalid': NULL  }}" name="last_name" placeholder="Last Name" value="{{old('last_name',Str::title($auth->lname))}}" readonly>
                   @if($errors->first('last_name'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('last_name')}}</small>
                   @endif
@@ -37,7 +37,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">Middle Name</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('middle_name') ? 'is-invalid': NULL  }}" name="middle_name" placeholder="Middle Name" value="{{old('middle_name',Session::get('business.middle_name'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('middle_name') ? 'is-invalid': NULL  }}" name="middle_name" placeholder="Middle Name" value="{{old('middle_name',Str::title($auth->mname))}}" readonly>
                   @if($errors->first('middle_name'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('middle_name')}}</small>
                   @endif
@@ -46,7 +46,7 @@
               <div class="col-md-6 col-lg-6">
                 <div class="form-group">
                   <label class="text-form pb-2 fw-600">Email</label>
-                  <input type="text" class="form-control form-control-lg {{ $errors->first('email') ? 'is-invalid': NULL  }}" name="email" placeholder="username@email.com" value="{{old('email',Session::get('business.email'))}}">
+                  <input type="text" class="form-control form-control-lg {{ $errors->first('email') ? 'is-invalid': NULL  }}" name="email" placeholder="username@email.com" value="{{old('email',$auth->email)}}" readonly>
                   @if($errors->first('email'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('email')}}</small>
                   @endif
@@ -61,7 +61,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text text-title fw-600" style="border-right: none;">+63 <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
                       </div>
-                      <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('mobile_number') ? 'is-invalid': NULL  }}" name="mobile_number" placeholder="XXX-XXX-XXXX" value="{{old('mobile_number',Session::get('registration.mobile_number'))}}">
+                      <input type="text" class="form-control form-control-lg br-left-white {{ $errors->first('mobile_number') ? 'is-invalid': NULL  }}" name="mobile_number" placeholder="XXX-XXX-XXXX" value="{{old('mobile_number',$auth->primary_phone)}}" readonly>
                     </div>
                     @if($errors->first('mobile_number'))
                         <small class="form-text pl-1" style="color:red;">{{$errors->first('mobile_number')}}</small>

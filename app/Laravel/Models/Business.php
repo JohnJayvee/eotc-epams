@@ -70,5 +70,8 @@ class Business extends Model{
     public function zone(){
         return $this->BelongsTo("App\Laravel\Models\ZoneLocation",'zone_id','id');
     }
+    public function company(){
+        return $this->BelongsTo("App\Laravel\Models\Company",'company_id','id');
+    }
 
 }
